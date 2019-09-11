@@ -31,6 +31,25 @@ class TestBinarySearch(unittest.TestCase):
 
       return self.first_larger(A, k, median + 1, right)
 
+    # 1.4 - finds j such that A[j] = j
+    def find_equal_index(self, A):
+
+      left  = 0
+      right = len(A) - 1
+
+      while left <= right:
+        if A[left] > right or A[right] < left:
+          return -1
+        median = int(left + ((right - left) / 2))
+        if A[median] < median:
+          left = median + 1
+        elif A[median] == median:
+          return median
+        else:
+          right = median - 1
+
+      return -1
+
 
     # Finds an index of the k in A, or -1
     def binary_search(self, A, k, left, right):
@@ -67,6 +86,24 @@ class TestBinarySearch(unittest.TestCase):
         self.assertEqual(self.first_larger([1, 2, 3, 4, 5], 5), -1)
         self.assertEqual(self.first_larger([1, 2, 3, 3, 4, 5], 5), -1)
         self.assertEqual(self.first_larger([1, 2, 3, 3, 4], -5), -1)
+
+    def test_find_equal_index_missing(self):
+        self.assertEqual(self.find_equal_index([]), -1)
+        self.assertEqual(self.find_equal_index([1]), -1)
+        self.assertEqual(self.find_equal_index([10]), -1)
+        self.assertEqual(self.find_equal_index([-1]), -1)
+        self.assertEqual(self.find_equal_index([-1, 3, 5, 10]), -1)
+
+    def test_find_equal_index(self):
+        self.assertEqual(self.find_equal_index([0]), 0)
+        self.assertEqual(self.find_equal_index([-1, 1, 2]), 1)
+        self.assertEqual(self.find_equal_index([-1, 0, 2]), 2)
+        self.assertEqual(self.find_equal_index([-1, 0, 1, 3]), 3)
+        self.assertEqual(self.find_equal_index([-1, 0, 1, 3, 5, 6]), 3)
+        self.assertEqual(self.find_equal_index([-1, 0, 1, 2, 4]), 4)
+        self.assertEqual(self.find_equal_index([-1, 0, 1, 2, 4, 7]), 4)
+        self.assertEqual(self.find_equal_index([-10, -5, -3, -2, 0, 2, 4, 7]), 7)
+        self.assertEqual(self.find_equal_index([-10, -5, -3, -2, 0, 2, 4, 7, 10, 15, 25]), 7)
 
     def test_first_appearance_single(self):
         self.assertEqual(self.first_appearance([0], 0), 0)
