@@ -69,6 +69,26 @@ class TestBinarySearch(unittest.TestCase):
 
       return -1
 
+    def intersect_arrays(self, A, B):
+      a_length = len(A)
+      b_length = len(B)
+
+      a = 0
+      b = 0
+      C = []
+
+      while a < a_length and b < b_length:
+        while a < a_length and A[a] < B[b]:
+          a += 1
+        while a < a_length and b < b_length and B[b] < A[a]:
+          b += 1
+        if  a < a_length and b < b_length and A[a] == B[b]:
+          C.append(A[a])
+          a += 1
+          b += 1
+
+      return C
+
     def test_first_appearance_missing(self):
         self.assertEqual(self.first_appearance([], 0), -1)
         self.assertEqual(self.first_appearance([], 10), -1)
@@ -143,6 +163,34 @@ class TestBinarySearch(unittest.TestCase):
         self.assertEqual(self.first_larger([1, 2, 2, 2, 2, 2, 2, 3, 4, 5], 2), 7)
         self.assertEqual(self.first_larger([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 4, 5], 2), 11)
         self.assertEqual(self.first_larger([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 4, 5], 4), 17)
+
+    def check_arrays_intersect(self, A, B, C):
+      self.assertEqual(self.intersect_arrays(A, A), A)
+      self.assertEqual(self.intersect_arrays(B, B), B)
+      self.assertEqual(self.intersect_arrays(C, C), C)
+      self.assertEqual(self.intersect_arrays(A, B), C)
+      self.assertEqual(self.intersect_arrays(B, A), C)
+      self.assertEqual(self.intersect_arrays(A, C), C)
+      self.assertEqual(self.intersect_arrays(B, C), C)
+
+    def test_intersect_arrays(self):
+        self.check_arrays_intersect([], [], [])
+        self.check_arrays_intersect([0], [1], [])
+        self.check_arrays_intersect([0, 1], [-1, 10], [])
+        self.check_arrays_intersect([-100, 1, 100], [], [])
+        self.check_arrays_intersect([], [-113, 34, 56, 78], [])
+        self.check_arrays_intersect([23, 35, 60], [-113, 34, 56, 78], [])
+        self.check_arrays_intersect([23, 35, 60], [-113, 34, 35, 56, 60, 78], [35, 60])
+        self.check_arrays_intersect([1, 2, 3, 4, 7], [1, 4, 5, 6, 7], [1, 4, 7])
+        self.check_arrays_intersect([-1], [-1], [-1])
+        self.check_arrays_intersect([0], [0], [0])
+        self.check_arrays_intersect([1], [1], [1])
+        self.check_arrays_intersect([1, 2, 3], [1, 2], [1, 2])
+        self.check_arrays_intersect([1, 2], [1, 2, 3], [1, 2])
+        self.check_arrays_intersect([1, 2, 100, 4000], [1, 2, 100, 4000], [1, 2, 100, 4000])
+        self.check_arrays_intersect([1, 2, 3, 4000], [1, 2, 100, 4000], [1, 2, 4000])
+        self.check_arrays_intersect([1, 2, 100, 4000], [1, 2, 3, 4000], [1, 2, 4000])
+        self.check_arrays_intersect([1, 2, 1000, 2000, 3500, 4001, 5005, 10000, 10001], [1, 2, 3, 4000, 10001], [1, 2, 10001])
 
 if __name__ == '__main__':
     unittest.main()
