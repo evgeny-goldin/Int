@@ -2,7 +2,7 @@ import unittest
 
 class TestBinarySearch(unittest.TestCase):
 
-    # 1.2
+    # 1.2 with duplicates
     def first_appearance(self, A, k, left = 0, right = -1):
 
       if  right == -1:
@@ -50,7 +50,6 @@ class TestBinarySearch(unittest.TestCase):
 
       return -1
 
-
     # Finds an index of the k in A, or -1
     def binary_search(self, A, k, left, right):
 
@@ -69,6 +68,7 @@ class TestBinarySearch(unittest.TestCase):
 
       return -1
 
+    # 1.7
     def intersect_arrays(self, A, B):
       a_length = len(A)
       b_length = len(B)
@@ -86,7 +86,6 @@ class TestBinarySearch(unittest.TestCase):
           C.append(A[a])
           a += 1
           b += 1
-
       return C
 
     def test_first_appearance_missing(self):
