@@ -36,9 +36,6 @@ class Chapter03(unittest.TestCase):
                 right = median - 1
                 
         return False
-            
-        
-        
     
     def test_find_duplicates(self):
         self.assertEqual(self.find_duplicates([]), [])
@@ -49,7 +46,6 @@ class Chapter03(unittest.TestCase):
         self.assertEqual(self.find_duplicates([3, 0, 2, 1, 3, 1]), [1, 3])
         self.assertEqual(self.find_duplicates([1, 0, 2, 1, 3, 3]), [1, 3])
         self.assertEqual(self.find_duplicates([0, 1, 1, 1, 0, 1]), [0, 1])
-    
     
     def test_find_number(self):
         self.assertFalse(self.find_number([[1]], 0))
