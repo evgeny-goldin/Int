@@ -20,13 +20,14 @@ class Chapter03(unittest.TestCase):
         
     # Question 7    
     def find_number(self, A, k):
-        N     = len(A[0])
-        left  = 0
-        right = (N * N) - 1
+        columns = len(A[0])
+        rows    = len(A)
+        left    = 0
+        right   = (rows * columns) - 1
         
         while left <= right:
             median = left + int((right - left) / 2)
-            number = A[int(median / N)][int(median % N)]
+            number = A[int(median % rows)][int(median % columns)]
             if number < k:
                 left = median + 1
             elif number == k:
@@ -52,12 +53,22 @@ class Chapter03(unittest.TestCase):
     
     def test_find_number(self):
         self.assertFalse(self.find_number([[1]], 0))
+        
         self.assertTrue(self.find_number([[1]], 1))
+        self.assertTrue(self.find_number([[1], [2], [3]], 1))
+        self.assertTrue(self.find_number([[1], [2], [3]], 2))
+        self.assertTrue(self.find_number([[1], [2], [3]], 3))
+        
+        self.assertTrue(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 1))
         self.assertTrue(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 9))
         self.assertTrue(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 17))
-        self.assertTrue(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 1))
-        self.assertFalse(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 10))
-        self.assertFalse(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 12))
+        
+        self.assertTrue(self.find_number([[1, 3], [7, 9], [13, 15]], 1))
+        self.assertTrue(self.find_number([[1, 3], [7, 9], [13, 15]], 9))
+        self.assertTrue(self.find_number([[1, 3], [7, 9], [13, 15]], 15))
+        
+        self.assertFalse(self.find_number([[1], [7], [13]], 10))
+        self.assertFalse(self.find_number([[1, 3], [7, 9], [13, 15]], 12))
         self.assertFalse(self.find_number([[1, 3, 5], [7, 9, 11], [13, 15, 17]], 100))
         
         
