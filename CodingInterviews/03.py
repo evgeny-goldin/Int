@@ -143,6 +143,8 @@ class Chapter03(unittest.TestCase):
         self.assertEqual(self.replace_blanks([' ', ' ', '', '', '', '']), ['%', '2', '0', '%', '2', '0'])
         self.assertEqual(self.replace_blanks(['A']), ['A'])
         self.assertEqual(self.replace_blanks(['A', ' ', 'B', '', '']), ['A', '%', '2', '0', 'B'])
+        self.assertEqual(self.replace_blanks([' ', 'A', ' ', 'B', ' ', '', '', '', '', '', '']),
+                                             ['%', '2', '0', 'A', '%', '2', '0', 'B', '%', '2', '0'])
         self.assertEqual(self.replace_blanks(['W', 'E', ' ', 'A', 'R', 'E', ' ', 'H', 'A', 'P', 'P', 'Y', '', '', '', '']),
                                              ['W', 'E', '%', '2', '0', 'A', 'R', 'E', '%', '2', '0', 'H', 'A', 'P', 'P', 'Y'])
 
