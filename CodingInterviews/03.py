@@ -50,6 +50,29 @@ class Chapter03(unittest.TestCase):
         else:
             return self.find_number2(A, k, y, x - 1)
 
+    # Question 9
+    def replace_blanks(self, A):
+        blanks = 0
+
+        for j in range(0, len(A)):
+            if A[j] == ' ':
+                blanks += 1
+
+        if blanks == 0:
+            return A
+
+        pointer = len(A) - 1 - (blanks * 2)
+        while pointer > -1:
+            if A[pointer] == ' ':
+                A[pointer + (blanks * 2)]     = '0'
+                A[pointer + (blanks * 2) - 1] = '2'
+                A[pointer + (blanks * 2) - 2] = '%'
+                blanks -= 1
+                if blanks == 0:
+                    return A
+            else:
+                A[pointer + (blanks * 2)] = A[pointer]
+            pointer -= 1
 
     def test_find_duplicates(self):
         self.assertEqual(self.find_duplicates([]), [])
@@ -112,6 +135,17 @@ class Chapter03(unittest.TestCase):
         self.assertFalse(self.find_number2(matrix2, 14, 0, 3))
         self.assertFalse(self.find_number2(matrix2, 20, 0, 3))
         self.assertFalse(self.find_number2(matrix2, 100, 0, 3))
+
+
+    def test_replace_blanks(self):
+        self.assertEqual(self.replace_blanks([]), [])
+        self.assertEqual(self.replace_blanks([' ', '', '']), ['%', '2', '0'])
+        self.assertEqual(self.replace_blanks([' ', ' ', '', '', '', '']), ['%', '2', '0', '%', '2', '0'])
+        self.assertEqual(self.replace_blanks(['A']), ['A'])
+        self.assertEqual(self.replace_blanks(['A', ' ', 'B', '', '']), ['A', '%', '2', '0', 'B'])
+        self.assertEqual(self.replace_blanks(['W', 'E', ' ', 'A', 'R', 'E', ' ', 'H', 'A', 'P', 'P', 'Y', '', '', '', '']),
+                                             ['W', 'E', '%', '2', '0', 'A', 'R', 'E', '%', '2', '0', 'H', 'A', 'P', 'P', 'Y'])
+
 
     
 if __name__ == '__main__':
