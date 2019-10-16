@@ -76,13 +76,13 @@ class Chapter03(unittest.TestCase):
 
     # Question 10
     def merge_arrays(self, A1, A2):
-        a1 = -1 # Index of the last A1 number
+        a1 = len(A1) - 1
         a2 = len(A2) - 1
-        current = len(A1) - 1
+        current = a1
 
-        for j in range(0, len(A1)):
-            if (a1 == -1) and (A1[j] == -1):
-                a1 = j - 1
+        for j in reversed(range(0, len(A1))):
+            if A1[j] == -1:
+                a1 -= 1
 
         while (a1 >= 0) or (a2 >= 0):
             if  (a1 < 0) or (a2 < 0):
@@ -186,9 +186,15 @@ class Chapter03(unittest.TestCase):
 
     def test_merge_arrays(self):
         self.assertEqual(self.merge_arrays([], []), [])
-        self.assertEqual(self.merge_arrays([1, -1], [2]), [1, 2])
+        self.assertEqual(self.merge_arrays([0], []), [0])
+        self.assertEqual(self.merge_arrays([10], []), [10])
+        self.assertEqual(self.merge_arrays([-1], [11]), [11])
+        self.assertEqual(self.merge_arrays([1, -1], [8]), [1, 8])
+        self.assertEqual(self.merge_arrays([8, -1], [1]), [1, 8])
         self.assertEqual(self.merge_arrays([1, 3, 7, -1], [2]), [1, 2, 3, 7])
-        self.assertEqual(self.merge_arrays([1, -1, -1, -1], [2, 3, 7]), [1, 2, 3, 7])
+        self.assertEqual(self.merge_arrays([1, 3, 7, -1], [10]), [1, 3, 7, 10])
+        self.assertEqual(self.merge_arrays([1, 3, 7, -1, -1, -1, -1], [0, 2, 5, 100]), [0, 1, 2, 3, 5, 7, 100])
+        self.assertEqual(self.merge_arrays([1, -1, -1, -1, -1], [0, 2, 3, 7]), [0, 1, 2, 3, 7])
         self.assertEqual(self.merge_arrays([1, 7, 9, 10, -1, -1, -1, -1], [2, 3, 5, 8]), [1, 2, 3, 5, 7, 8, 9, 10])
 
     
