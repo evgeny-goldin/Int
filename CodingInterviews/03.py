@@ -74,6 +74,43 @@ class Chapter03(unittest.TestCase):
                 A[pointer + (blanks * 2)] = A[pointer]
             pointer -= 1
 
+    # Question 10
+    def merge_arrays(self, A1, A2):
+        a1 = -1 # Index of the last A1 number
+        a2 = len(A2) - 1
+        current = len(A1) - 1
+
+        for j in range(0, len(A1)):
+            if (a1 == -1) and (A1[j] == -1):
+                a1 = j - 1
+
+        while (a1 >= 0) or (a2 >= 0):
+            if  (a1 < 0) or (a2 < 0):
+                A1[current] = A2[a2] if (a1 < 0) else A1[a1]
+                a1 -= 1
+                a2 -= 1
+                current -= 1
+            elif A1[a1] > A2[a2]:
+                A1[current] = A1[a1]
+                a1 -= 1
+                current -= 1
+            elif A1[a1] == A2[a2]:
+                A1[current]     = A1[a1]
+                A1[current - 1] = A2[a2]
+                a1 -= 1
+                a2 -= 1
+                current -= 2
+            else:
+                A1[current] = A2[a2]
+                a2 -= 1
+                current -= 1
+
+        if current != -1:
+            raise Exception("Current: {} != -1".format(current))
+
+        return A1
+
+
     def test_find_duplicates(self):
         self.assertEqual(self.find_duplicates([]), [])
         self.assertEqual(self.find_duplicates([0, 1]), [])
@@ -136,7 +173,6 @@ class Chapter03(unittest.TestCase):
         self.assertFalse(self.find_number2(matrix2, 20, 0, 3))
         self.assertFalse(self.find_number2(matrix2, 100, 0, 3))
 
-
     def test_replace_blanks(self):
         self.assertEqual(self.replace_blanks([]), [])
         self.assertEqual(self.replace_blanks([' ', '', '']), ['%', '2', '0'])
@@ -148,6 +184,12 @@ class Chapter03(unittest.TestCase):
         self.assertEqual(self.replace_blanks(['W', 'E', ' ', 'A', 'R', 'E', ' ', 'H', 'A', 'P', 'P', 'Y', '', '', '', '']),
                                              ['W', 'E', '%', '2', '0', 'A', 'R', 'E', '%', '2', '0', 'H', 'A', 'P', 'P', 'Y'])
 
+    def test_merge_arrays(self):
+        self.assertEqual(self.merge_arrays([], []), [])
+        self.assertEqual(self.merge_arrays([1, -1], [2]), [1, 2])
+        self.assertEqual(self.merge_arrays([1, 3, 7, -1], [2]), [1, 2, 3, 7])
+        self.assertEqual(self.merge_arrays([1, -1, -1, -1], [2, 3, 7]), [1, 2, 3, 7])
+        self.assertEqual(self.merge_arrays([1, 7, 9, 10, -1, -1, -1, -1], [2, 3, 5, 8]), [1, 2, 3, 5, 7, 8, 9, 10])
 
     
 if __name__ == '__main__':
