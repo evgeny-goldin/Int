@@ -110,6 +110,38 @@ class Chapter03(unittest.TestCase):
 
         return A1
 
+    # Question 12
+    def is_number(self, S, allowed):
+
+        if  len(S) < 1:
+            return True
+
+        char = S[0]
+
+        if char not in allowed:
+            return False
+
+        reminder = S[1:]
+
+        if (char == '+') or (char == '-'):
+            allowed.remove('+')
+            allowed.remove('-')
+            return self.is_number(reminder, allowed)
+
+        if char == '.':
+            allowed.remove('.')
+            return self.is_number(reminder, allowed)
+
+        if (char == 'e') or (char == 'E'):
+            allowed.remove('e')
+            allowed.remove('E')
+            allowed.remove('+')
+            allowed.remove('.')
+            allowed.append('-')
+            return False if len(reminder) == 0 else self.is_number(reminder, allowed)
+
+        # A digit
+        return self.is_number(reminder, allowed)
 
     def test_find_duplicates(self):
         self.assertEqual(self.find_duplicates([]), [])
@@ -196,6 +228,25 @@ class Chapter03(unittest.TestCase):
         self.assertEqual(self.merge_arrays([1, 3, 7, -1, -1, -1, -1], [0, 2, 5, 100]), [0, 1, 2, 3, 5, 7, 100])
         self.assertEqual(self.merge_arrays([1, -1, -1, -1, -1], [0, 2, 3, 7]), [0, 1, 2, 3, 7])
         self.assertEqual(self.merge_arrays([1, 7, 9, 10, -1, -1, -1, -1], [2, 3, 5, 8]), [1, 2, 3, 5, 7, 8, 9, 10])
+
+    def test_is_number(self):
+        allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '.', 'e', 'E']
+        self.assertTrue(self.is_number("0", allowed.copy()))
+        self.assertTrue(self.is_number("012345", allowed.copy()))
+        self.assertTrue(self.is_number("012345.4567", allowed.copy()))
+        self.assertTrue(self.is_number("100.", allowed.copy()))
+        self.assertTrue(self.is_number("+100.", allowed.copy()))
+        self.assertTrue(self.is_number("-100.", allowed.copy()))
+        self.assertTrue(self.is_number("-100.23", allowed.copy()))
+        self.assertTrue(self.is_number("5e2", allowed.copy()))
+        self.assertTrue(self.is_number(".123", allowed.copy()))
+        self.assertTrue(self.is_number("-.123", allowed.copy()))
+        self.assertTrue(self.is_number("3.1416", allowed.copy()))
+        self.assertFalse(self.is_number("12e", allowed.copy()))
+        self.assertFalse(self.is_number("1a3.14", allowed.copy()))
+        self.assertFalse(self.is_number("1.2.3", allowed.copy()))
+        self.assertFalse(self.is_number("+-5", allowed.copy()))
+        self.assertFalse(self.is_number("12e+5.4", allowed.copy()))
 
     
 if __name__ == '__main__':
