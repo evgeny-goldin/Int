@@ -325,4 +325,50 @@ public class Easy {
 
         return true;
     }
+
+    public void rotate(int[][] matrix) {
+        if ((matrix == null) || (matrix.length < 1)) {
+            return;
+        }
+
+        int n = matrix.length;
+
+        // Iterating over all layers
+        for (int layer = 0; layer < (n / 2); layer++) {
+            // Iterating over cells in a row, rotating them 90 degress
+            for (int cell = 0; cell < (n - 1 - (layer * 2)); cell++) {
+                int temp = matrix[layer + cell][n - 1 - layer];
+                // Top => Right
+                matrix[layer + cell][n - 1 - layer] = matrix[layer][layer + cell];
+                // Left => Top
+                matrix[layer][layer + cell] = matrix[n - 1 - layer - cell][layer];
+                // Bottom => Left
+                matrix[n - 1 - layer - cell][layer] = matrix[n - 1 - layer][n - 1 - layer - cell];
+                // Right => Bottom
+                matrix[n - 1 - layer][n - 1 - layer - cell] = temp;
+            }
+        }
+    }
+
+
+    public int reverse(int x) {
+        if ((x == 0) || ((x > -10) && (x < 10))) {
+            return x;
+        }
+
+        int result = 0;
+
+        while (x != 0) {
+            int digit = x % 10;
+            x /= 10;
+
+            if ((result > Integer.MAX_VALUE/10) || ((result == Integer.MAX_VALUE/10) && digit >  7)) return 0;
+            if ((result < Integer.MIN_VALUE/10) || ((result == Integer.MIN_VALUE/10) && digit < -8)) return 0;
+
+            result = (result * 10) + digit;
+        }
+
+        return result;
+    }
+
 }
