@@ -430,5 +430,59 @@ public class Easy {
         return true;
     }
     
+    private boolean isNumber(char ch) {
+        return (((int)ch >= '0') && ((int)ch <= '9'));
+    }
+    
+    public int myAtoi(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }    
+        
+        char[] chars = s.toCharArray();
+        boolean isFirstNonWhitespace = true;
+        int result = -1;
+        
+        for (int j = 0; j < chars.length; j++) {
+            char ch = chars[j];
+            
+            if (ch == ' ') {
+                continue;
+            }
+            
+            boolean isNumber = isNumber(ch);
+            
+            if ((ch != ' ') && isFirstNonWhitespace) {
+                isFirstNonWhitespace = false;
+                if (isNumber) {
+                    result = ((int)ch) - '0';
+                } else {
+                    boolean canContinue = (j < (chars.length - 1))     &&
+                                          ((ch == '+') || (ch == '-')) && 
+                                          isNumber(chars[j+1]);
+                    if (! canContinue){
+                        return 0;
+                    }
+                    
+                    result = ((int) chars[j+1]) - '0';
+                    if (ch == '-') { result = -result; }
+                    j++;
+                }
+            } else if (! isNumber) {
+                return result;
+            } else {
+                result *= 10;
+                if (result < 0) {
+                    result -= (((int) ch) - '0');
+                } else {
+                    result += (((int) ch) - '0');
+                }
+            }
+        }
+        
+        return result;
+    }
+
+    
 
 }
