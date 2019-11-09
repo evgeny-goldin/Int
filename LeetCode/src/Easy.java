@@ -441,48 +441,59 @@ public class Easy {
         
         char[] chars = s.toCharArray();
         boolean isFirstNonWhitespace = true;
-        int result = -1;
+        int result = 0;
+        boolean isPositive = true;
         
         for (int j = 0; j < chars.length; j++) {
             char ch = chars[j];
             
-            if (ch == ' ') {
+            if (isFirstNonWhitespace && (ch == ' ')) {
                 continue;
             }
             
             boolean isNumber = isNumber(ch);
+            int chNum = isNumber ? (((int) ch) - '0') : -1;
             
             if ((ch != ' ') && isFirstNonWhitespace) {
                 isFirstNonWhitespace = false;
                 if (isNumber) {
-                    result = ((int)ch) - '0';
+                    result = chNum;
                 } else {
-                    boolean canContinue = (j < (chars.length - 1))     &&
-                                          ((ch == '+') || (ch == '-')) && 
-                                          isNumber(chars[j+1]);
-                    if (! canContinue){
+                    boolean isContinue = ((ch == '+') || (ch == '-')) &&
+                                         (j < (chars.length - 1))     && 
+                                         isNumber(chars[j+1]);
+                    if (! isContinue){
                         return 0;
                     }
                     
-                    result = ((int) chars[j+1]) - '0';
-                    if (ch == '-') { result = -result; }
-                    j++;
+                    isPositive = (ch == '+');
                 }
-            } else if (! isNumber) {
-                return result;
+            } else if (isNumber) {
+
+                boolean isPositiveOverflow = 
+                    isPositive && 
+                    ((result > Integer.MAX_VALUE/10) || ((result == Integer.MAX_VALUE/10) && (chNum > 7)));
+                    
+                
+                boolean isNegativeOverflow = 
+                    (! isPositive) && 
+                    ((-result < Integer.MIN_VALUE/10) || ((-result == Integer.MIN_VALUE/10) && (chNum > 8)));
+
+                if (isPositiveOverflow){
+                    return Integer.MAX_VALUE;                     
+                }    
+                
+                if (isNegativeOverflow){
+                    return Integer.MIN_VALUE;                     
+                }    
+
+                result = (result * 10) + chNum;
             } else {
-                result *= 10;
-                if (result < 0) {
-                    result -= (((int) ch) - '0');
-                } else {
-                    result += (((int) ch) - '0');
-                }
+                break;
             }
         }
         
-        return result;
+        return isPositive ? result : -result;
     }
-
-    
 
 }
