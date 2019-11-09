@@ -370,5 +370,65 @@ public class Easy {
 
         return result;
     }
+    
+    private boolean isDigit (char ch) {
+        int codePoint = (int) ch;
+        return ((codePoint >= '0') && (codePoint <= '9')); 
+    }    
+    
+    private boolean isAlphanumeric(char ch) {
+        int codePoint = (int) ch;
+        return ((codePoint >= 'a') && (codePoint <= 'z')) || 
+               ((codePoint >= 'A') && (codePoint <= 'Z')) ||
+               isDigit(ch);
+    }
+    
+    private boolean isEqual(char ch1, char ch2) {
+        if (ch1 == ch2) {
+            return true;
+        }        
+        
+        if (isDigit(ch1) || isDigit(ch2)) {
+            return false;
+        }
+
+        int codePoint1 = (int) ch1;
+        int codePoint2 = (int) ch2;
+        int largerPoint = (codePoint2 > codePoint1) ? codePoint2 : codePoint1;
+        int smallerPoint = (codePoint2 > codePoint1) ? codePoint1 : codePoint2;
+        
+        return  ((largerPoint - 'a') == (smallerPoint - 'A'));
+    }
+
+    public boolean isPalindrome(String s) {
+        if (s == null) {
+            return false;
+        }       
+        
+        char[] chars = s.toCharArray();
+        int left = 0;
+        int right = chars.length - 1;
+        
+        while (left < right) {
+            while ((left < right) && (left < (chars.length-1)) && (! isAlphanumeric(chars[left]))) {
+                left++;
+            }
+            while ((right > left) && (right > -1) && (! isAlphanumeric(chars[right]))) {
+                right--;
+            }
+            
+            if (left == right) {
+                return true;
+            }
+            if (! isEqual(chars[left], chars[right])) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        
+        return true;
+    }
+    
 
 }
