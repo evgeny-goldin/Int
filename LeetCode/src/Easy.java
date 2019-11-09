@@ -429,6 +429,10 @@ public class Easy {
         
         return true;
     }
+
+
+    private static final int MAX_VALUE_TENTH = Integer.MAX_VALUE / 10;
+    private static final int MIN_VALUE_TENTH = Integer.MIN_VALUE / 10;
     
     private boolean isNumber(char ch) {
         return (((int)ch >= '0') && ((int)ch <= '9'));
@@ -454,7 +458,7 @@ public class Easy {
             boolean isNumber = isNumber(ch);
             int chNum = isNumber ? (((int) ch) - '0') : -1;
             
-            if ((ch != ' ') && isFirstNonWhitespace) {
+            if (isFirstNonWhitespace && (ch != ' ')) {
                 isFirstNonWhitespace = false;
                 if (isNumber) {
                     result = chNum;
@@ -472,12 +476,11 @@ public class Easy {
 
                 boolean isPositiveOverflow = 
                     isPositive && 
-                    ((result > Integer.MAX_VALUE/10) || ((result == Integer.MAX_VALUE/10) && (chNum > 7)));
+                    ((result > MAX_VALUE_TENTH) || ((result == MAX_VALUE_TENTH) && (chNum > 7)));
                     
-                
                 boolean isNegativeOverflow = 
                     (! isPositive) && 
-                    ((-result < Integer.MIN_VALUE/10) || ((-result == Integer.MIN_VALUE/10) && (chNum > 8)));
+                    ((-result < MIN_VALUE_TENTH) || ((-result == MIN_VALUE_TENTH) && (chNum > 8)));
 
                 if (isPositiveOverflow){
                     return Integer.MAX_VALUE;                     
@@ -495,5 +498,6 @@ public class Easy {
         
         return isPositive ? result : -result;
     }
+    
 
 }
