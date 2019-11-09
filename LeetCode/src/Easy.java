@@ -478,13 +478,13 @@ public class Easy {
                     isPositive && 
                     ((result > MAX_VALUE_TENTH) || ((result == MAX_VALUE_TENTH) && (chNum > 7)));
                     
-                boolean isNegativeOverflow = 
-                    (! isPositive) && 
-                    ((-result < MIN_VALUE_TENTH) || ((-result == MIN_VALUE_TENTH) && (chNum > 8)));
-
                 if (isPositiveOverflow){
                     return Integer.MAX_VALUE;                     
                 }    
+
+                boolean isNegativeOverflow = 
+                    (! isPositive) && 
+                    ((-result < MIN_VALUE_TENTH) || ((-result == MIN_VALUE_TENTH) && (chNum > 8)));
                 
                 if (isNegativeOverflow){
                     return Integer.MIN_VALUE;                     
@@ -498,6 +498,4 @@ public class Easy {
         
         return isPositive ? result : -result;
     }
-    
-
 }
