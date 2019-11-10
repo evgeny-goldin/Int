@@ -10,7 +10,7 @@ import java.util.Set;
 public class Easy {
 
 
-    private int removeNode(ListNode head, int n) {
+   private int removeNode(ListNode head, int n) {
 
         if (head.next == null) {
             return 1; 
@@ -23,7 +23,6 @@ public class Easy {
         } 
 
         return nodeOrder + 1;
-
     }
     
     public ListNode removeNthFromEnd(ListNode head, int n) {
@@ -34,7 +33,6 @@ public class Easy {
         int nodeOrder = removeNode(head, n);
         return (nodeOrder <= n) ? head.next : head;
     }
-
 
     public void deleteNode(ListNode node) {
         if ((node == null) || (node.next == null)) {
