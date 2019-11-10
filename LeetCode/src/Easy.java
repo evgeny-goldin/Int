@@ -18,7 +18,7 @@ public class Easy {
         int size = 0;
         for (ListNode p = head; p != null; p = p.next, size++);
         
-        int halfSize  = size/2;
+        int halfSize  = size / 2;
         int p1Steps   = ((size % 2) == 0) ? halfSize : halfSize + 1;
         int p2Steps   = halfSize - 1;  
         ListNode p1   = head;
@@ -26,11 +26,10 @@ public class Easy {
 
         // Position p1 to walk the right half
         for (int j = 0; j < p1Steps; j++, p1 = p1.next);
-        
+                
+        // Reverse the left half and position p2 to walk it in reverse order
         ListNode temp1 = p2.next;
         p2.next = null;
-        
-        // Reverse the left half links and position p2 to walk it in reverse order
         for (int j = 0; j < p2Steps; j++) {
             ListNode temp2 = temp1.next;
             temp1.next = p2;
@@ -38,20 +37,17 @@ public class Easy {
             temp1 = temp2;
         }
         
-        // Walk p1 and p2 simultaneously until mismatch or end of list on both sides
-        boolean isPalindrome = true;
-        
-        while ((p1 != null) && (p2 != null) && isPalindrome) {
+        // Walk p1 and p2 until mismatch or end of list
+        for (int j = 0; j < halfSize; j++) {
             if (p1.val != p2.val) {
-                isPalindrome = false;
-            } else {
-                p1 = p1.next;
-                p2 = p2.next;
-            }
+                return false;
+            } 
+            p1 = p1.next;
+            p2 = p2.next;            
         }
-        
+                    
         // We could also reverse the left half links back
-        return isPalindrome;
+        return true;
     }
     
 
