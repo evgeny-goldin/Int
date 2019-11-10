@@ -8,6 +8,57 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+    
+    public boolean isPalindrome(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        
+        if (head.next == null) {
+            return true;
+        }
+        
+        for (int size = 0, ListNode p = head; 
+             p != null; 
+             size++, p = p.next);
+        
+        boolean isOdd = size & 1;
+        int halfSize  = size/2;
+        int p1Steps   = isOdd ? halfSize + 1 : halfSize;
+        int p2Steps   = halfSize - 1;  
+        ListNode p1   = head;
+        ListNode p2   = head;
+
+        for (int j = 0; j < p1Steps; j++, p1 = p1.next);
+        
+        ListNode p1Start = p1;
+        ListNode temp1 = p2.next;
+        p2.next = null;
+        
+        // Reverse left-half links
+        for (int j = 0; j < p2Steps; j++) {
+            ListNode temp2 = temp1.next;
+            temp1.next = p2;
+            p2 = temp1;
+            temp1 = temp2;
+        }
+        
+        ListNode p2Start = p2;
+        ListNode rightSide = temp1;
+        boolean isPalindrome = true;
+        
+        while ((p1 != null) && (p2 != null) && isPalindrome) {
+            if (p1.val != p2.val) {
+                isPalindrome = false;
+            } else {
+                p1 = p1.next;
+                p2 = p2.next;
+            }
+        }
+        
+        return isPalindrome;
+    }
+    
 
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
