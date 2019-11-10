@@ -10,32 +10,27 @@ import java.util.Set;
 public class Easy {
     
     public boolean isPalindrome(ListNode head) {
-        if (head == null) {
-            return false;
-        }
-        
-        if (head.next == null) {
+        if ((head == null) || (head.next == null)) {
             return true;
         }
         
+        // Count list size
         int size = 0;
-        
         for (ListNode p = head; p != null; p = p.next, size++);
         
-        boolean isOdd = ((size % 2) == 1);
         int halfSize  = size/2;
-        int p1Steps   = isOdd ? halfSize + 1 : halfSize;
+        int p1Steps   = ((size % 2) == 0) ? halfSize : halfSize + 1;
         int p2Steps   = halfSize - 1;  
         ListNode p1   = head;
         ListNode p2   = head;
 
+        // Position p1 to walk the right half
         for (int j = 0; j < p1Steps; j++, p1 = p1.next);
         
-        ListNode p1Start = p1;
         ListNode temp1 = p2.next;
         p2.next = null;
         
-        // Reverse left-half links
+        // Reverse the left half links and position p2 to walk it in reverse order
         for (int j = 0; j < p2Steps; j++) {
             ListNode temp2 = temp1.next;
             temp1.next = p2;
@@ -43,8 +38,7 @@ public class Easy {
             temp1 = temp2;
         }
         
-        ListNode p2Start = p2;
-        ListNode rightSide = temp1;
+        // Walk p1 and p2 simultaneously until mismatch or end of list on both sides
         boolean isPalindrome = true;
         
         while ((p1 != null) && (p2 != null) && isPalindrome) {
@@ -56,6 +50,7 @@ public class Easy {
             }
         }
         
+        // We could also reverse the left half links back
         return isPalindrome;
     }
     
