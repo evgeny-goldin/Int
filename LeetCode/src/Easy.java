@@ -9,6 +9,44 @@ import java.util.Set;
 
 public class Easy {
 
+
+    private boolean contains(char[] haystackChars, char[] needleChars, int startIndex) {
+        
+        if ((startIndex + needleChars.length) > haystackChars.length) {
+            return false;
+        }
+        
+        // Assuming first letter is already checked
+        for (int j = 1; j < needleChars.length; j++) {
+            if (needleChars[j] != haystackChars[startIndex + j]) {
+                return false;
+            }    
+        }
+        
+        return true;
+    }
+    
+    public int strStr(String haystack, String needle) {
+        if ((haystack == null) || (needle == null)) {
+            return -1;
+        }
+        if (needle.length() < 1) {
+            return 0;
+        }
+        
+        char[] haystackChars = haystack.toCharArray();
+        char[] needleChars = needle.toCharArray();        
+        
+        for (int j = 0; j <= (haystackChars.length - needleChars.length); j++) {
+            if ((haystackChars[j] == needleChars[0]) && contains(haystackChars, needleChars, j)) {
+                return j;
+            }
+        }
+        
+        return -1;
+    }
+
+
     public int removeDuplicates(final int[] nums) {
 
         if (nums == null) { return 0; }
