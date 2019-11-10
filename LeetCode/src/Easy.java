@@ -21,6 +21,7 @@ public class Easy {
     
     private Queue<C> q = new LinkedList<>();
     
+    // BFS
     public int maxDepth2(TreeNode root) {
         if (root == null) {
             return 0;
@@ -44,14 +45,14 @@ public class Easy {
         return depth;
     }
     
-    
+    // DFS
     public int maxDepth2(TreeNode root) {
         if (root == null) {
             return 0;
         }
         
-        return Math.max(maxDepth(root.left), 
-                        maxDepth(root.right)) + 1;
+        return 1 + Math.max(maxDepth(root.left), 
+                            maxDepth(root.right));
     }
     
     
