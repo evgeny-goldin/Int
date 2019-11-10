@@ -9,8 +9,46 @@ import java.util.Set;
 
 public class Easy {
 
+    public ListNode reverseList(ListNode head) {
+        if ((head == null) || (head.next == null)) {
+            return head;
+        }
+        
+        ListNode p1 = head;
+        ListNode p2 = head.next;
+        
+        head.next = null;
+        
+        while (p2 != null) {
+            ListNode temp = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = temp;
+        }
+        
+        return p1;
+    }
 
-   private int removeNode(ListNode head, int n) {
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        if ((head == null) || (n < 1)) {
+            return head;
+        }
+                
+        int size = 0;
+        for (ListNode p = head; p != null; p = p.next, size++);
+        
+        if (n < size) {
+            ListNode p = head;
+            for (int j = 0; j < (size - n - 1); p = p.next, j++);
+            p.next = p.next.next;
+            return head;
+        } else {
+            return head.next;
+        }        
+    }
+
+
+    private int removeNode(ListNode head, int n) {
 
         if (head.next == null) {
             return 1; 
@@ -25,7 +63,7 @@ public class Easy {
         return nodeOrder + 1;
     }
     
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+    public ListNode removeNthFromEnd1(ListNode head, int n) {
         if ((head == null) || (n < 1)) {
             return head;
         }
