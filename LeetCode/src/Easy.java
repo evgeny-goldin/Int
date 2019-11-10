@@ -9,7 +9,43 @@ import java.util.Set;
 
 public class Easy {
     
-    public int maxDepth(TreeNode root) {
+    private class C {
+        TreeNode node;
+        int level;
+        
+        private C(TreeNode node, int level) {
+            this.node  = node;
+            this.level = level;
+        }
+    }
+    
+    private Queue<C> q = new LinkedList<>();
+    
+    public int maxDepth2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int depth = -1;
+        
+        q.add(new C(root, 1));
+        
+        while (! q.isEmpty()) {
+            C c = q.remove();
+            depth = c.level;
+            if (c.node.left != null) {
+                q.add(new C(c.node.left, depth + 1));
+            }
+            if (c.node.right != null) {
+                q.add(new C(c.node.right, depth + 1));
+            }
+        }
+        
+        return depth;
+    }
+    
+    
+    public int maxDepth2(TreeNode root) {
         if (root == null) {
             return 0;
         }
