@@ -10,6 +10,93 @@ import java.util.Set;
 public class Easy {
 
 
+    public void deleteNode(ListNode node) {
+        if ((node == null) || (node.next == null)) {
+            return;
+        }
+        
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+    public String longestCommonPrefix(String[] strs) {
+        if ((strs == null) || (strs.length < 1)) {
+            return "";
+        }       
+        
+        String shortestStr = strs[0];
+        
+        for (int j = 1; j < strs.length; j++) {
+            if (strs[j].length() < shortestStr.length()) {
+                shortestStr = strs[j]; 
+            }
+        }
+        
+        for (int j = 0; j < shortestStr.length(); j++) {
+            char ch = shortestStr.charAt(j);
+            for (int n = 0; n < strs.length; n++) {
+                if (strs[n].charAt(j) != ch) {
+                    return shortestStr.substring(0, j);
+                }
+            }
+        }
+        
+        return shortestStr;
+    }
+
+    public String countAndSay(int n) {
+        if (n < 1) {
+            return "";
+        }
+        
+        String s = "1";
+        
+        if (n == 1) {
+            return s;
+        }
+        
+        StringBuilder b = new StringBuilder();
+        
+        for (int j = 2; j <= n; j++) {
+            String nextS = generateNextS(s, b);
+            
+            if (j == n) {
+                return nextS;
+            } else {
+                s = nextS;
+            }
+        }
+        
+        return "";
+    }
+    
+    
+    private String generateNextS(String s, StringBuilder b) {
+        int[] numbers = new int[s.length()];
+        for (int j = 0; j < numbers.length; j++) {
+            numbers[j] = (int)s.charAt(j) - '0';
+        }
+        
+        int currentNumber = numbers[0];
+        int currentRepeats = 1;
+        b.setLength(0);
+        
+        for (int j = 1; j < numbers.length; j++) {
+            int n = numbers[j];
+            if (n == currentNumber) {
+                currentRepeats++;
+            } else {
+                b.append(currentRepeats).append(currentNumber);
+                currentNumber = n;
+                currentRepeats = 1;                
+            }
+        }
+        
+        b.append(currentRepeats).append(currentNumber);
+        return b.toString();
+    }
+
+
     private boolean contains(char[] haystackChars, char[] needleChars, int startIndex) {
         
         if ((startIndex + needleChars.length) > haystackChars.length) {
