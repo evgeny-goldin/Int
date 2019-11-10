@@ -9,7 +9,30 @@ import java.util.Set;
 
 public class Easy {
 
-    public ListNode reverseList(ListNode head) {
+    private ListNode[] reverse(ListNode head) {
+        
+        if (head.next == null) {
+            return new ListNode[]{head, head};
+        }
+        
+        ListNode[] nodes = reverse(head.next);
+        nodes[0].next = head;
+        nodes[0] = head;
+        return nodes;
+    }
+    
+    public ListNode reverseList2(ListNode head) {
+        if ((head == null) || (head.next == null)) {
+            return head;
+        }
+        
+        ListNode[] nodes = reverse(head.next);
+        head.next = null;
+        nodes[0].next = head;
+        return nodes[1];
+    }
+
+    public ListNode reverseList1(ListNode head) {
         if ((head == null) || (head.next == null)) {
             return head;
         }
