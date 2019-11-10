@@ -18,11 +18,11 @@ public class Easy {
             return true;
         }
         
-        for (int size = 0, ListNode p = head; 
-             p != null; 
-             size++, p = p.next);
+        int size = 0;
         
-        boolean isOdd = size & 1;
+        for (ListNode p = head; p != null; p = p.next, size++);
+        
+        boolean isOdd = ((size % 2) == 1);
         int halfSize  = size/2;
         int p1Steps   = isOdd ? halfSize + 1 : halfSize;
         int p2Steps   = halfSize - 1;  
