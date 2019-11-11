@@ -9,6 +9,48 @@ import java.util.Set;
 
 public class Easy {
     
+    
+    private boolean isValidBST(TreeNode root, Integer min, Integer max) {
+        boolean isValid = true;
+        
+        if (root.left != null) {
+            isValid = isValid && 
+                      (root.val > root.left.val) && 
+                      ((min == null) || (root.left.val > min)) && 
+                      ((max == null) || (root.left.val < max)) && 
+                      isValidBST(root.left, min, root.val); 
+        }
+        
+        if (root.right != null) {
+            isValid = isValid && 
+                      (root.val < root.right.val) && 
+                      ((min == null) || (root.right.val > min)) && 
+                      ((max == null) || (root.right.val < max)) && 
+                      isValidBST(root.right, root.val, max);             
+        }
+        
+        return isValid;
+    }
+    
+    public boolean isValidBST(TreeNode root) {
+ 
+        if (root == null) {
+            return true;
+        }
+        
+        boolean isValid = true;
+        
+        if (root.left != null) {
+            isValid = isValid && (root.val > root.left.val) && isValidBST(root.left, null, root.val); 
+        }
+        
+        if (root.right != null) {
+            isValid = isValid && (root.val < root.right.val) && isValidBST(root.right, root.val, null);             
+        }
+        
+        return isValid;
+    }
+    
     private class C {
         TreeNode node;
         int level;
