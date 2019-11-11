@@ -9,6 +9,31 @@ import java.util.Set;
 
 public class Easy {
     
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        if ((nums1 == null) || (nums1.length < 1)) {
+            return;
+        }       
+        if ((nums2 == null) || (nums2.length < 1)) {
+            return;
+        }       
+        if (! ((m >= 0) && (n >= 0) && ((m + n) == nums1.length) && (n == nums2.length))) {
+            return;
+        }       
+        
+        m--;
+        n--;
+        
+        for (int j = nums1.length - 1; j >= 0; j--) {
+            if (((m > -1) && (n > -1) && (nums2[n] > nums1[m])) || (m < 0)) {
+                nums1[j] = nums2[n];
+                n--;
+            } else {
+                nums1[j] = nums1[m];
+                m--;                
+            }
+        }
+    }
+    
     public TreeNode sortedArrayToBST(int[] nums, int start, int end) {
         if (! ((start >= 0) && (start < end) && (end <= nums.length))) {
             return null;
