@@ -9,6 +9,28 @@ import java.util.Set;
 
 public class Easy {
     
+    public int firstBadVersion(int n) {
+        
+        if (n < 1) {
+            return -1;
+        }
+        
+        int left = 1;
+        int right = n;
+        
+        while (left < right) {
+            int middle = left + ((right - left) / 2);
+            if (isBadVersion(middle)) {
+                right = middle;
+            } else {
+                left = middle + 1;
+            }        
+        }
+        
+        return left;
+    }
+    
+    
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         if ((nums1 == null) || (nums1.length < 1)) {
             return;
