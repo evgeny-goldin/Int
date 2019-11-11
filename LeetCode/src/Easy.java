@@ -10,6 +10,39 @@ import java.util.Set;
 public class Easy {
     
     
+    // In-Order traversal - returns last visited value or null if recursion should stop
+    // ** Every previously visited node (lastVisited) should be less than the following one **
+    private Integer visit(TreeNode root, Integer lastVisited) {
+    
+        if (root == null) {
+            return lastVisited;
+        }
+
+        // Visiting left child 
+        if (root.left != null) {
+            lastVisited = visit(root.left, lastVisited);
+            if (lastVisited == null) {
+                return null; 
+            }
+        }
+        
+        // Visiting Node
+        if ((lastVisited != null) && (lastVisited >= root.val)) {
+            return null;
+        }
+        
+        // Visiting right child
+        return visit(root.right, root.val);
+    }
+    
+    
+    public boolean isValidBST2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return visit(root, null) != null;
+    }    
+    
     private boolean isMirror (TreeNode t1, TreeNode t2) {
         if ((t1 == null) && (t2 == null)) {
             return true;
@@ -59,7 +92,7 @@ public class Easy {
        return left.toString().equals(right.toString()); 
     }
 
-    private boolean isValidBST(TreeNode root, Integer min, Integer max) {
+    private boolean isValidBST1(TreeNode root, Integer min, Integer max) {
         boolean isValid = true;
         
         if (root.left != null) {
@@ -81,7 +114,7 @@ public class Easy {
         return isValid;
     }
     
-    public boolean isValidBST(TreeNode root) {
+    public boolean isValidBST1(TreeNode root) {
  
         if (root == null) {
             return true;
