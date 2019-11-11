@@ -10,6 +10,38 @@ import java.util.Set;
 public class Easy {
     
     
+    private void traverse(TreeNode root, StringBuilder b, boolean isLeft) {
+        if (root == null) {
+            b.append("[]");    
+            return;
+        }
+        
+        b.append("[" + root.val + "]");
+        
+        if (isLeft) {
+            traverse(root.left,  b, isLeft);
+            traverse(root.right, b, isLeft);
+        } else {
+            traverse(root.right, b, isLeft);
+            traverse(root.left,  b, isLeft);
+        }
+    }
+    
+    
+    public boolean isSymmetric(TreeNode root) {
+       if (root == null) {
+           return true;
+       } 
+        
+       StringBuilder left  = new StringBuilder();
+       StringBuilder right = new StringBuilder();
+        
+       traverse(root.left,  left, true);
+       traverse(root.right, right, false);
+        
+       return left.toString().equals(right.toString()); 
+    }
+
     private boolean isValidBST(TreeNode root, Integer min, Integer max) {
         boolean isValid = true;
         
