@@ -15,12 +15,20 @@ public class Easy {
             return n;
         }
         
+        if (n > 45) {
+            return -1;
+        }
+        
         int[] cache = new int[n];
         cache[0] = 1;
         cache[1] = 2;
         
         for (int j = 2; j < n; j++) {
-            cache[j] = cache[j-1] + cache[j-2]; 
+            if (cache[j-1] <= Integer.MAX_VALUE - cache[j-2]) {
+                cache[j] = cache[j-1] + cache[j-2];    
+            } else {
+                return -1;
+            }
         }
         
         return cache[n-1];        
