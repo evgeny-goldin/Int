@@ -9,6 +9,23 @@ import java.util.Set;
 
 public class Easy {
     
+    
+    public int climbStairs(int n) {
+        if (n < 3) {
+            return n;
+        }
+        
+        int[] cache = new int[n];
+        cache[0] = 1;
+        cache[1] = 2;
+        
+        for (int j = 2; j < n; j++) {
+            cache[j] = cache[j-1] + cache[j-2]; 
+        }
+        
+        return cache[n-1];        
+    }
+    
     public int firstBadVersion(int n) {
         
         if (n < 1) {
