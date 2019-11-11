@@ -9,6 +9,26 @@ import java.util.Set;
 
 public class Easy {
     
+    public TreeNode sortedArrayToBST(int[] nums, int start, int end) {
+        if (! ((start >= 0) && (start < end) && (end <= nums.length))) {
+            return null;
+        }
+        
+        int middle = start + ((int)((end - start) / 2));
+        TreeNode t = new TreeNode(nums[middle]);
+        t.left  = sortedArrayToBST(nums, start, middle);
+        t.right = sortedArrayToBST(nums, middle + 1, end);
+        return t;
+    }
+    
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return null;
+        }    
+    
+        return sortedArrayToBST(nums, 0, nums.length);
+    }
+    
     
     // In-Order traversal - returns last visited value or null if recursion should stop
     // ** Every previously visited node (lastVisited) should be less than the following one **
