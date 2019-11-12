@@ -23,13 +23,8 @@ public class Easy {
             int price = prices[j];
             if (price < min) {
                 min = price;
-            } else {
-                boolean isPeak = (price > prices[j-1]) && 
-                                 ((j == (prices.length - 1)) || (price >= prices[j+1]));
-                
-                if (isPeak && ((price - min) > result)) {
-                    result = price - min;
-                }
+            } else if ((price > prices[j-1]) && ((price - min) > result)) {
+                result = price - min;
             }   
         }
         
