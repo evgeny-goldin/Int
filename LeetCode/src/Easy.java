@@ -9,6 +9,33 @@ import java.util.Set;
 
 public class Easy {
     
+
+    // 121. Best Time to Buy and Sell Stock (Easy)
+    
+    public int maxProfit(int[] prices) {
+        if ((prices == null) || (prices.length < 2)) {
+            return 0;
+        }       
+        
+        int min = prices[0], peak = -1, result = 0;
+        
+        for (int j = 1; j < prices.length; j++) {
+            int price = prices[j];
+            if (price < min) {
+                min = price;
+            } else {
+                boolean isPeak = (price > prices[j-1]) && 
+                                 ((j == (prices.length - 1)) || (price >= prices[j+1]));
+                
+                if (isPeak && ((price - min) > result)) {
+                    result = price - min;
+                }
+            }   
+        }
+        
+        return result;
+    }
+
     
     public int climbStairs(int n) {
         if (n < 3) {
