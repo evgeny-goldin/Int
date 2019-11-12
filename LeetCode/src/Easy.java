@@ -439,6 +439,33 @@ public class Easy {
         
         return shortestStr;
     }
+    
+    // 38. Count and Say (Easy)
+
+    private String generateNextS(String s, StringBuilder b) {
+        int[] numbers = new int[s.length()];
+        for (int j = 0; j < numbers.length; j++) {
+            numbers[j] = (int)s.charAt(j) - '0';
+        }
+        
+        int currentNumber = numbers[0];
+        int currentRepeats = 1;
+        b.setLength(0);
+        
+        for (int j = 1; j < numbers.length; j++) {
+            int n = numbers[j];
+            if (n == currentNumber) {
+                currentRepeats++;
+            } else {
+                b.append(currentRepeats).append(currentNumber);
+                currentNumber = n;
+                currentRepeats = 1;                
+            }
+        }
+        
+        b.append(currentRepeats).append(currentNumber);
+        return b.toString();
+    }
 
     public String countAndSay(int n) {
         if (n < 1) {
@@ -465,33 +492,8 @@ public class Easy {
         
         return "";
     }
-    
-    
-    private String generateNextS(String s, StringBuilder b) {
-        int[] numbers = new int[s.length()];
-        for (int j = 0; j < numbers.length; j++) {
-            numbers[j] = (int)s.charAt(j) - '0';
-        }
-        
-        int currentNumber = numbers[0];
-        int currentRepeats = 1;
-        b.setLength(0);
-        
-        for (int j = 1; j < numbers.length; j++) {
-            int n = numbers[j];
-            if (n == currentNumber) {
-                currentRepeats++;
-            } else {
-                b.append(currentRepeats).append(currentNumber);
-                currentNumber = n;
-                currentRepeats = 1;                
-            }
-        }
-        
-        b.append(currentRepeats).append(currentNumber);
-        return b.toString();
-    }
 
+    // 28. Implement strStr() (Easy)
 
     private boolean contains(char[] haystackChars, char[] needleChars, int startIndex) {
         
@@ -528,7 +530,8 @@ public class Easy {
         
         return -1;
     }
-
+    
+    // 26. Remove Duplicates from Sorted Array (Easy)
 
     public int removeDuplicates(final int[] nums) {
 
@@ -547,6 +550,8 @@ public class Easy {
 
         return pointer;
     }
+    
+    // 1. Two Sum (Easy)
 
     public int[] twoSum(int[] nums, int target) {
 
@@ -573,6 +578,8 @@ public class Easy {
 
         return new int[0];
     }
+
+    // 189. Rotate Array (Easy)
 
     private void swap(int[] nums, int start1, int start2, int length) {
         for (int j = 0; j < length; j++) {
@@ -603,7 +610,7 @@ public class Easy {
             rotate(nums, start + n, k - n);
         }
     }
-
+    
     public void rotate(int[] nums, int k) {
         if ((nums == null) || (nums.length < 2) || (k < 1)) {
             return;
@@ -620,6 +627,8 @@ public class Easy {
 
         rotate(nums, 0, k);
     }
+    
+    // 122. Best Time to Buy and Sell Stock II (Easy)
 
     public int maxProfit(int[] prices) {
         if ((prices == null) || (prices.length < 1)) {
@@ -646,6 +655,8 @@ public class Easy {
 
         return total;
     }
+
+    // 349. Intersection of Two Arrays (Easy)
 
     public int[] intersection(int[] nums1, int[] nums2) {
         if ((nums1 == null) || (nums1.length < 1)) {
@@ -680,6 +691,8 @@ public class Easy {
 
         return resultArray;
     }
+
+    // 350. Intersection of Two Arrays II (Easy)
 
     // j => counter of appearances
     public Map<Integer, Integer> indexArray(int[] nums) {
@@ -728,6 +741,8 @@ public class Easy {
 
         return resultArray;
     }
+    
+    // 66. Plus One (Easy)
 
     public int[] plusOne(int[] digits) {
         if ((digits == null) || (digits.length < 1)) {
@@ -760,6 +775,8 @@ public class Easy {
             return Arrays.copyOfRange(result, 1, result.length);
         }
     }
+    
+    // 283. Move Zeroes (Easy)
 
     public void moveZeroes(int[] nums) {
         if ((nums == null) || (nums.length < 1)) {
@@ -782,6 +799,8 @@ public class Easy {
         }
     }
 
+    // 36. Valid Sudoku (Medium)
+
     private int toInt(char ch) {
         return (ch == '.' ? 0 : ch - '0');
     }
@@ -798,7 +817,7 @@ public class Easy {
         }
         return bitSet;
     }
-
+    
     public boolean isValidSudoku(char[][] board) {
         int N = 9;
         int SMALLN = N / 3;
@@ -810,7 +829,6 @@ public class Easy {
             short bitSet = 0;
             for (int column = 0; column < N; column++) {
                 int num = toInt(board[row][column]);
-                // System.out.println("[" + row + "][" + column + "][" + num + "][" + bitSet + "]");
                 bitSet = checkBit(bitSet, num);
                 if (bitSet < 0) {
                     return false;
@@ -846,6 +864,8 @@ public class Easy {
 
         return true;
     }
+    
+    // 48. Rotate Image (Medium)
 
     public void rotate(int[][] matrix) {
         if ((matrix == null) || (matrix.length < 1)) {
@@ -872,6 +892,8 @@ public class Easy {
     }
 
 
+    // 7. Reverse Integer
+
     public int reverse(int x) {
         if ((x == 0) || ((x > -10) && (x < 10))) {
             return x;
@@ -891,6 +913,10 @@ public class Easy {
 
         return result;
     }
+    
+    // -----------------------------------------------
+    // 125. Valid Palindrome
+    // -----------------------------------------------
     
     private boolean isDigit (char ch) {
         int codePoint = (int) ch;
@@ -951,6 +977,9 @@ public class Easy {
         return true;
     }
 
+    // -----------------------------------------------
+    // 8. String to Integer (atoi)
+    // -----------------------------------------------
 
     private static final int MAX_VALUE_TENTH = Integer.MAX_VALUE / 10;
     private static final int MIN_VALUE_TENTH = Integer.MIN_VALUE / 10;
