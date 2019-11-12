@@ -28,6 +28,7 @@ public class Easy {
                 }
             } else {
                 sum = 0;
+                // Handling negatives-only array
                 if (nums[j] > maxSum) {
                     maxSum = nums[j];
                 }                
