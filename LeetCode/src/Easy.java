@@ -23,14 +23,15 @@ public class Easy {
             int price = prices[j];
             if (price < min) {
                 min = price;
-            } else if ((price > prices[j-1]) && ((price - min) > result)) {
+            } else if ((price - min) > result) {
                 result = price - min;
             }   
         }
         
         return result;
     }
-
+    
+    // 70. Climbing Stairs (Easy)
     
     public int climbStairs(int n) {
         if (n < 3) {
