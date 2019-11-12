@@ -17,7 +17,7 @@ public class Easy {
             return 0;
         }       
         
-        int min = prices[0], peak = -1, result = 0;
+        int min = prices[0], result = 0;
         
         for (int j = 1; j < prices.length; j++) {
             int price = prices[j];
