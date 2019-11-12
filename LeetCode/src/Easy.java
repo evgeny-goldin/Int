@@ -8,7 +8,35 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+
+
+    // 53. Maximum Subarray (Easy)    
     
+    public int maxSubArray(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }       
+        
+        int maxSum = nums[0];
+        int sum = (maxSum > 0) ? maxSum : 0;
+
+        for (int j = 1; j < nums.length; j++) {
+            if ((sum + nums[j]) > 0) {
+                sum += nums[j];
+                if (sum > maxSum) {
+                    maxSum = sum;
+                }
+            } else {
+                sum = 0;
+                if (nums[j] > maxSum) {
+                    maxSum = nums[j];
+                }                
+            }
+        }
+        
+        return maxSum;
+    }
+
 
     // 121. Best Time to Buy and Sell Stock (Easy)
     
@@ -56,6 +84,8 @@ public class Easy {
         
         return cache[n-1];        
     }
+    
+    // 278. First Bad Version (Easy)
     
     public int firstBadVersion(int n) {
         
