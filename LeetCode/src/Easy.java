@@ -8,6 +8,44 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+    
+    
+    // 198. House Robber (Easy)
+    
+    private Map<Integer, Integer> cache = new HashMap<>();
+    
+    public int rob(int[] nums, int begin, int end) {
+                
+        if (begin > end) {
+            return 0;
+        }
+        
+        if (begin == end) {
+            return nums[begin];
+        }
+        
+        if ((begin + 1) == end) {
+            return Math.max(nums[begin], nums[end]);
+        }
+        
+        Integer result = cache.get(begin);
+        
+        if (result == null) {
+            result = Math.max(nums[begin]   + rob(nums, begin + 2, end),
+                              nums[begin+1] + rob(nums, begin + 3, end));
+            cache.put(begin, result);
+        }
+        
+        return result;
+    }
+    
+    public int rob(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }    
+        
+        return rob(nums, 0, nums.length - 1);
+    }
 
 
     // 53. Maximum Subarray (Easy)    
@@ -198,6 +236,8 @@ public class Easy {
             }
         }
     }
+    
+    // 108. Convert Sorted Array to Binary Search Tree (Easy)
     
     public TreeNode sortedArrayToBST(int[] nums, int start, int end) {
         if (! ((start >= 0) && (start < end) && (end <= nums.length))) {
