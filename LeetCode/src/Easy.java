@@ -12,9 +12,28 @@ public class Easy {
     
     // 198. House Robber (Easy)
     
+    public int rob2(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }    
+
+        // F(N) = Max(X + F(N-2), F(N-1))
+        
+        int s1 = 0, s2 = 0;
+        
+        for (int x : nums) {
+            int temp = s1;
+            s1 = Math.max(x + s2, s1);
+            s2 = temp;
+        }
+        
+        return s1;
+    }
+    
+    
     private Map<Integer, Integer> cache = new HashMap<>();
     
-    public int rob(int[] nums, int begin, int end) {
+    public int rob1(int[] nums, int begin, int end) {
                 
         if (begin > end) {
             return 0;
@@ -39,7 +58,7 @@ public class Easy {
         return result;
     }
     
-    public int rob(int[] nums) {
+    public int rob1(int[] nums) {
         if ((nums == null) || (nums.length < 1)) {
             return 0;
         }    
@@ -259,6 +278,7 @@ public class Easy {
         return sortedArrayToBST(nums, 0, nums.length);
     }
     
+    // 98. Validate Binary Search Tree (Medium)
     
     // In-Order traversal - returns last visited value or null if recursion should stop
     // ** Every previously visited node (lastVisited) should be less than the following one **
@@ -283,7 +303,6 @@ public class Easy {
         
         // Visiting right child
         return visit(root.right, root.val);
-    }
     
     
     public boolean isValidBST2(TreeNode root) {
@@ -292,6 +311,49 @@ public class Easy {
         }
         return visit(root, null) != null;
     }    
+    
+    private boolean isValidBST1(TreeNode root, Integer min, Integer max) {
+        boolean isValid = true;
+        
+        if (root.left != null) {
+            isValid = isValid && 
+                      (root.val > root.left.val) && 
+                      ((min == null) || (root.left.val > min)) && 
+                      ((max == null) || (root.left.val < max)) && 
+                      isValidBST(root.left, min, root.val); 
+        }
+        
+        if (root.right != null) {
+            isValid = isValid && 
+                      (root.val < root.right.val) && 
+                      ((min == null) || (root.right.val > min)) && 
+                      ((max == null) || (root.right.val < max)) && 
+                      isValidBST(root.right, root.val, max);             
+        }
+        
+        return isValid;
+    }
+    
+    public boolean isValidBST1(TreeNode root) {
+ 
+        if (root == null) {
+            return true;
+        }
+        
+        boolean isValid = true;
+        
+        if (root.left != null) {
+            isValid = isValid && (root.val > root.left.val) && isValidBST(root.left, null, root.val); 
+        }
+        
+        if (root.right != null) {
+            isValid = isValid && (root.val < root.right.val) && isValidBST(root.right, root.val, null);             
+        }
+        
+        return isValid;
+    }
+
+    // ...
     
     private boolean isMirror (TreeNode t1, TreeNode t2) {
         if ((t1 == null) && (t2 == null)) {
@@ -342,47 +404,6 @@ public class Easy {
        return left.toString().equals(right.toString()); 
     }
 
-    private boolean isValidBST1(TreeNode root, Integer min, Integer max) {
-        boolean isValid = true;
-        
-        if (root.left != null) {
-            isValid = isValid && 
-                      (root.val > root.left.val) && 
-                      ((min == null) || (root.left.val > min)) && 
-                      ((max == null) || (root.left.val < max)) && 
-                      isValidBST(root.left, min, root.val); 
-        }
-        
-        if (root.right != null) {
-            isValid = isValid && 
-                      (root.val < root.right.val) && 
-                      ((min == null) || (root.right.val > min)) && 
-                      ((max == null) || (root.right.val < max)) && 
-                      isValidBST(root.right, root.val, max);             
-        }
-        
-        return isValid;
-    }
-    
-    public boolean isValidBST1(TreeNode root) {
- 
-        if (root == null) {
-            return true;
-        }
-        
-        boolean isValid = true;
-        
-        if (root.left != null) {
-            isValid = isValid && (root.val > root.left.val) && isValidBST(root.left, null, root.val); 
-        }
-        
-        if (root.right != null) {
-            isValid = isValid && (root.val < root.right.val) && isValidBST(root.right, root.val, null);             
-        }
-        
-        return isValid;
-    }
-    
     private class C {
         TreeNode node;
         int level;
