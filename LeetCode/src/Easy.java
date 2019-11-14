@@ -31,8 +31,8 @@ public class Easy {
         Integer result = cache.get(begin);
         
         if (result == null) {
-            result = Math.max(nums[begin]   + rob(nums, begin + 2, end),
-                              nums[begin+1] + rob(nums, begin + 3, end));
+            result = Math.max(nums[begin] + rob(nums, begin + 2, end),
+                                            rob(nums, begin + 1, end));
             cache.put(begin, result);
         }
         
