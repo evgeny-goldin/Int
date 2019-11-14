@@ -12,7 +12,59 @@ public class Easy {
 
     // 53. Maximum Subarray (Easy)    
     
-    public int maxSubArray(int[] nums) {
+    private int cross(int[] nums, int begin, int end, int p) {
+        
+        int sum = nums[p];
+        int leftMaxSum = sum; 
+        
+        for (int j = p - 1; j >= begin; j--) {
+            sum += nums[j];
+            leftMaxSum = Math.max(leftMaxSum, sum);
+        }
+
+        sum = nums[p+1];
+        int rightMaxSum = sum; 
+        
+        for (int j = p + 2; j <= end; j++) {
+            sum += nums[j];
+            rightMaxSum = Math.max(rightMaxSum, sum);
+        }
+        
+        return leftMaxSum + rightMaxSum;
+
+    }
+    
+    private int maxSubArray2(int[] nums, int begin, int end) {
+        if (begin > end) {
+            return 0;
+        }
+        if (begin == end) {
+            return nums[begin];
+        }        
+        if ((begin + 1) == end) {
+            return Math.max(nums[begin] + nums[end],
+                            Math.max(nums[begin], nums[end]));
+        }        
+        
+        int p     = begin + ((end - begin) / 2);
+        int left  = maxSubArray(nums, begin, p);
+        int right = maxSubArray(nums, p+1, end);
+        int cross = cross(nums, begin, end, p);
+        
+        return Math.max(cross, Math.max(left, right));
+    } 
+    
+    
+    public int maxSubArray2(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        } 
+        
+        return maxSubArray2(nums, 0, nums.length - 1);
+    }
+    
+    
+    public int maxSubArray1(int[] nums) {
         if ((nums == null) || (nums.length < 1)) {
             return 0;
         }       
@@ -104,6 +156,7 @@ public class Easy {
         return left;
     }
     
+    // 88. Merge Sorted Array (Easy)
     
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         if ((nums1 == null) || (nums1.length < 1)) {
