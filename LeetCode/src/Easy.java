@@ -23,15 +23,10 @@ public class Easy {
         for (int j = 1; j < nums.length; j++) {
             if ((sum + nums[j]) > 0) {
                 sum += nums[j];
-                if (sum > maxSum) {
-                    maxSum = sum;
-                }
+                maxSum = Math.max(maxSum, sum);
             } else {
                 sum = 0;
-                // Handling negatives-only array
-                if (nums[j] > maxSum) {
-                    maxSum = nums[j];
-                }                
+                maxSum = Math.max(maxSum, nums[j]);
             }
         }
         
