@@ -84,7 +84,23 @@ public class Easy {
         
         return maxSum;
     }
-
+    
+    public int maxSubArray(int[] nums) { 
+        if ((nums == null) || (nums.length < 1)) { 
+            return 0; 
+        }         
+         
+        int sum = nums[0];
+        int maxSum = sum;
+ 
+        for (int j = 1; j < nums.length; j++) {
+            sum = Math.max(nums[j], nums[j] + sum);
+            maxSum = Math.max(maxSum, sum);
+        } 
+         
+        return maxSum; 
+    } 
+    
 
     // 121. Best Time to Buy and Sell Stock (Easy)
     
