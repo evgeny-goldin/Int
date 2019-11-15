@@ -19,7 +19,8 @@ public class Easy {
             return l1;
         }        
         
-        ListNode l = null, root = null;
+        ListNode dummy = new ListNode(-1);
+        ListNode l = dummy;
         
         for (int carryOver = 0; (l1 != null) || (l2 != null) || (carryOver > 0);) {
             boolean isL1Over = (l1 == null);
@@ -29,13 +30,8 @@ public class Easy {
             int value = (sum > 9) ? sum - 10 : sum;
             carryOver = (sum > 9) ? 1 : 0;
             
-            if (root == null) {
-                root = l = new ListNode(value);
-            } else {
-                l.next = new ListNode(value);
-                l = l.next;
-            }
-            
+            l.next = new ListNode(value);
+            l  = l.next;
             l1 = isL1Over ? null : l1.next;
             l2 = isL2Over ? null : l2.next;
 
@@ -45,9 +41,8 @@ public class Easy {
             }
         }
         
-        return root;
+        return dummy.next;
     }
-
     
     // 384. Shuffle an Array (Medium)
     
