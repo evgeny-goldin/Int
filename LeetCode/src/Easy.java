@@ -9,6 +9,95 @@ import java.util.Set;
 
 public class Easy {
     
+    // 384. Shuffle an Array (Medium)
+    
+    private final int[] origin;
+    private final int[] array;
+    private final Random R = new Random();
+    
+    public Solution(int[] nums) {
+        if (nums == null) {
+            throw new NullPointerException();
+        }
+        
+        origin = Arrays.copyOfRange(nums, 0, nums.length);
+        array = new int[nums.length];
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return origin;
+    }
+    
+    private void swap(int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle2() {       
+        System.arraycopy(origin, 0, array, 0, origin.length);
+        for (int j = 0; j < array.length; j++) {
+            swap(j, j + R.nextInt(array.length - j));
+        }
+        return array;
+    }    
+    
+    private final int[] counters;
+    private final int[] origin;
+    private final int[] array;
+    private final Set<Integer> set = new HashSet<>();
+    
+    public Solution(int[] nums) {
+        if (nums == null) {
+            throw new NullPointerException();
+        }
+        
+        origin = Arrays.copyOfRange(nums, 0, nums.length);
+        counters = new int[nums.length];
+        array = new int[nums.length];
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return origin;
+    }
+    
+    private boolean isValidCounters() {
+        set.clear();
+        for (int j = 0; j < counters.length; j++) {
+            int index = j + counters[j];
+            if (index >= counters.length) {
+                index -= counters.length;
+            }
+            int number = origin[index];
+            if (set.add(number)) {
+                array[j] = number;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void incrementCounters() {
+        do {
+            for (int j = 0; j < counters.length; j++) {            
+                counters[j] = (counters[j] < (counters.length - 1)) ? counters[j] + 1 : 0;
+                if (counters[j] != 0) {
+                    break;
+                }
+            }            
+        } while (! isValidCounters());
+    }
+        
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle1() {       
+        incrementCounters();
+        return array;
+    }    
+
     
     // Fibonacci Sequence:
     // F(0) = 0, F(1) = 1, F(N) = F(N-1) + F(N-2)
