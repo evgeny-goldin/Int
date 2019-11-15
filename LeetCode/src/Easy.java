@@ -10,6 +10,34 @@ import java.util.Set;
 public class Easy {
     
     
+    // Fibonacci Sequence:
+    // F(0) = 0, F(1) = 1, F(N) = F(N-1) + F(N-2)
+    
+    // Int  limit - fib(46) = 1836311903 
+    // Long limit - fib(92) = 7540113804746346429
+    private long fib (int n) {
+        if (n < 0) {
+            return -1;
+        }
+    
+        if (n < 2) {
+            return n;
+        }
+    
+        long s1 = 1, s2 = 0;
+    
+        for (int j = 1; j < n; j++) {
+            long temp = s1;
+            if (s1 > (Long.MAX_VALUE - s2)) {
+                return -1L;
+            }
+            s1 += s2;
+            s2 = temp;
+        }
+    
+        return s1;
+    }    
+    
     // 198. House Robber (Easy)
     
     public int rob2(int[] nums) {
