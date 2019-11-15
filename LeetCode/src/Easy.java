@@ -9,6 +9,46 @@ import java.util.Set;
 
 public class Easy {
     
+    // 2. Add Two Numbers (Medium)
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }    
+        if (l2 == null) {
+            return l1;
+        }        
+        
+        ListNode l = null, root = null;
+        
+        for (int carryOver = 0; (l1 != null) || (l2 != null) || (carryOver > 0);) {
+            boolean isL1Over = (l1 == null);
+            boolean isL2Over = (l2 == null);
+            
+            int sum   = carryOver + (isL1Over ? 0 : l1.val) + (isL2Over ? 0 : l2.val);
+            int value = (sum > 9) ? sum - 10 : sum;
+            carryOver = (sum > 9) ? 1 : 0;
+            
+            if (root == null) {
+                root = l = new ListNode(value);
+            } else {
+                l.next = new ListNode(value);
+                l = l.next;
+            }
+            
+            l1 = isL1Over ? null : l1.next;
+            l2 = isL2Over ? null : l2.next;
+
+            if ((isL1Over || isL1Over) && (! (isL1Over && isL2Over)) && (carryOver == 0)) {
+                l.next = (isL1Over ? l2 : l1);
+                break;
+            }
+        }
+        
+        return root;
+    }
+
+    
     // 384. Shuffle an Array (Medium)
     
     private final int[] origin;
@@ -470,7 +510,7 @@ public class Easy {
         return isValid;
     }
 
-    // ...
+    // 101. Symmetric Tree (Easy)
     
     private boolean isMirror (TreeNode t1, TreeNode t2) {
         if ((t1 == null) && (t2 == null)) {
@@ -506,7 +546,6 @@ public class Easy {
         }
     }
     
-    
     public boolean isSymmetric1(TreeNode root) {
        if (root == null) {
            return true;
@@ -520,6 +559,8 @@ public class Easy {
         
        return left.toString().equals(right.toString()); 
     }
+    
+    // 104. Maximum Depth of Binary Tree (Easy)
 
     private class C {
         TreeNode node;
@@ -567,6 +608,7 @@ public class Easy {
                             maxDepth(root.right));
     }
     
+    // 234. Palindrome Linked List (Easy)
     
     public boolean isPalindrome(ListNode head) {
         if ((head == null) || (head.next == null)) {
@@ -609,6 +651,7 @@ public class Easy {
         return true;
     }
     
+    // ...
 
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
