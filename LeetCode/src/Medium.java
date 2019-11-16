@@ -124,12 +124,12 @@ class Solution {
             l2 = isL2Over ? null : l2.next; 
  
             // One of the lists is over while the other one isn't
-            if ((isL1Over || isL1Over) && (! (isL1Over && isL2Over)) && (carryOver == 0)) { 
+            if ((isL1Over || isL2Over) && (! (isL1Over && isL2Over)) && (carryOver == 0)) { 
                 l.next = (isL1Over ? l2 : l1); 
                 break; 
             } 
         } 
          
         return dummy.next; 
-    }     
+    }
 }
