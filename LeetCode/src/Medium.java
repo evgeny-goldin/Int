@@ -1,5 +1,29 @@
 class Solution {
     
+    // 3. Longest Substring Without Repeating Characters
+    
+    public int lengthOfLongestSubstring(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }
+
+        int result = 0, left = 0, right = 0;
+        boolean[] set = new boolean[128];
+        
+        while ((left < s.length()) && (right < s.length())) {
+            int ch = (int)s.charAt(right++);
+            if (! set[ch]) {
+                set[ch] = true;
+                result = Math.max(result, right - left);
+            } else {
+                right--;
+                set[(int)s.charAt(left++)] = false;
+            }
+        }
+
+        return result;
+    }
+    
     // 445. Add Two Numbers II
     
     private final C EMPTY_C = new C(0, null);
