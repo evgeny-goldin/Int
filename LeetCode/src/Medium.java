@@ -2,7 +2,57 @@ class Solution {
     
     // 3. Longest Substring Without Repeating Characters
     
-    public int lengthOfLongestSubstring(String s) {
+    private boolean isSet(long bitSet, int bit) {
+        return ((bitSet << ~bit) < 0);
+    }
+    
+    private long set(long bitSet, int bit) {
+        return bitSet | (1L << bit);
+    }
+
+    private long clear(long bitSet, int bit) {
+        return bitSet & ~(1L << bit);
+    }
+    
+    public int lengthOfLongestSubstring2(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }
+
+        int result = 0, left = 0, right = 0, length = s.length();
+        long bitSetHigh = 0, bitSetLow = 0;
+        
+        while ((left < length) && (right < length)) {
+            int ch = (int) s.charAt(right);
+            if (ch > 127) {
+                throw new IllegalArgumentException(String.valueOf(ch));
+            }
+            boolean isBitAlreadySet = (ch < 64) ? isSet(bitSetLow, ch): 
+                                                  isSet(bitSetHigh, ch - 64);
+            if (isBitAlreadySet) {
+                ch = (int) s.charAt(left++);
+                // Clear "ch" bit
+                if (ch < 64) {
+                    bitSetLow  = clear(bitSetLow, ch);
+                } else {
+                    bitSetHigh = clear(bitSetHigh, ch - 64);
+                }
+            } else {
+                right++;
+                // Set "ch" bit
+                if (ch < 64) {
+                    bitSetLow  = set(bitSetLow, ch);
+                } else {
+                    bitSetHigh = set(bitSetHigh, ch - 64);
+                }
+                result = Math.max(result, right - left);
+            }
+        }
+
+        return result;
+    }
+    
+    public int lengthOfLongestSubstring1(String s) {
         if ((s == null) || (s.length() < 1)) {
             return 0;
         }
