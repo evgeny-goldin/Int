@@ -7,11 +7,11 @@ class Solution {
     }
     
     private long set(long bitSet, int bit) {
-        return bitSet | (1L << bit);
+        return (bitSet | (1L << bit));
     }
 
     private long clear(long bitSet, int bit) {
-        return bitSet & ~(1L << bit);
+        return (bitSet & ~(1L << bit));
     }
     
     public int lengthOfLongestSubstring2(String s) {
