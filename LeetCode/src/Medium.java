@@ -37,20 +37,18 @@ class Solution {
         }
         
         C c     = new C();
-        c.size  = 1;
+        c.size  = (s.charAt(0) == s.charAt(1)) ? 2 : 1;
         c.start = 0;
-        c.end   = 0;
+        c.end   = c.size - 1;
         
-        for (int j = 1; j < s.length(); j++) {
-            // Trying both expansion options: "aa" and "a?a"
+        for (int j = 2; j < s.length(); j++) {
+            // Trying both expansion options: "xx" and "x?x"
             expand(s, j - 1, j, c);
-            if (j > 1) {
-                expand(s, j - 2, j, c);
-            }            
+            expand(s, j - 2, j, c);
         }
                 
         return (c.size < s.length()) ? s.substring(c.start, c.end + 1) : s;
-    }       
+    }   
     
     // 3. Longest Substring Without Repeating Characters
     
