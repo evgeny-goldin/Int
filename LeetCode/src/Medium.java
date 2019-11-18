@@ -1,5 +1,57 @@
 class Solution {
     
+    // 5. Longest Palindromic Substring
+    
+    // Container for returning expansion results
+    private class C {
+        private int size;
+        private int start;
+        private int end;
+    } 
+    
+    private void expand(String s, int start, int end, C c) {
+        if (s.charAt(start) != s.charAt(end)) {
+            return;
+        }
+        
+        start--;
+        end++;            
+        
+        while((start >= 0) && (end < s.length()) && (s.charAt(start) == s.charAt(end))) {
+            start--;
+            end++;
+        }
+
+        int size = end - start - 1; 
+        
+        if (size > c.size) {
+            c.size  = size;
+            c.start = start + 1; 
+            c.end   = end - 1;
+        }
+    }
+    
+    public String longestPalindrome(String s) {
+        if ((s == null) || (s.length() < 2)) {
+            return s;
+        }
+        
+        C c     = new C();
+        c.size  = 1;
+        c.start = 0;
+        c.end   = 0;
+        
+        for (int j = 1; j < s.length(); j++) {
+            // Trying both expansion options: "aa" and "a?a"
+            expand(s, j - 1, j, c);
+            if (j > 1) {
+                expand(s, j - 2, j, c);
+            }            
+        }
+                
+        return (c.size < s.length()) ? s.substring(c.start, c.end + 1) : s;
+    }       
+    
     // 3. Longest Substring Without Repeating Characters
     
     public int lengthOfLongestSubstring3(String s) {
