@@ -8,6 +8,62 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+    
+    // 13. Roman to Integer - https://leetcode.com/problems/roman-to-integer/
+    
+    public int romanToInt(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }       
+        
+        int n = 0;
+        
+        for (int j = 0; j < s.length(); j++) {
+            char ch  = s.charAt(j);
+            char ch2 = (j < (s.length() - 1)) ? s.charAt(j+1) : ' ';
+            if (ch == 'M') {
+                n += 1000;
+            } else if (ch == 'D') {
+                n += 500;
+            } else if (ch == 'L') {
+                n += 50;
+            } else if (ch == 'V') {
+                n += 5;
+            } else if (ch == 'C') {
+                if (ch2 == 'D') {
+                    n += 400;
+                    j++;
+                } else if (ch2 == 'M') {
+                    n += 900;
+                    j++;
+                } else {
+                    n += 100;
+                }
+            } else if (ch == 'X') {
+                if (ch2 == 'L') {
+                    n += 40;
+                    j++;
+                } else if (ch2 == 'C') {
+                    n += 90;
+                    j++;
+                } else {
+                    n += 10;
+                }
+            } else if (ch == 'I') {
+                if (ch2 == 'V') {
+                    n += 4;
+                    j++;
+                } else if (ch2 == 'X') {
+                    n += 9;
+                    j++;
+                } else {
+                    n += 1;
+                }
+            }
+        }
+        
+        return n;
+    }
 
     // 1. Two Sum (Easy)
 
