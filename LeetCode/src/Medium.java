@@ -2,6 +2,30 @@ class Solution {
     
     // 15. 3Sum - https://leetcode.com/problems/3sum/
     
+    public List<List<Integer>> threeSum2(int[] nums) {
+        List<List<Integer>> solutionSet = new ArrayList<List<Integer>>();        
+        Arrays.sort(nums);
+        
+        for(int a = 0; a < nums.length - 2; a++) {
+            if(a != 0 && nums[a] == nums[a - 1]) continue;
+            int b = a + 1;
+            int c = nums.length - 1;
+            while (b < c) {
+                if(nums[a] + nums[b] + nums[c] == 0) {
+                    solutionSet.add(Arrays.asList(nums[a], nums[b], nums[c]));
+                    b++;
+                    while(b < c && nums[b] == nums[b - 1]) b++;
+                } else if(nums[a] + nums[b] + nums[c] < 0) {
+                    b++;
+                } else {
+                    c--;
+                }
+            }
+        }
+
+        return solutionSet;
+    }
+    
     private List<List<Integer>> twoSum(Map<Integer, List<Integer>> index, int target) {
         List<List<Integer>> result = new ArrayList<>();
         
@@ -21,7 +45,7 @@ class Solution {
         return result;
     }
     
-    public List<List<Integer>> threeSum(int[] nums) {
+    public List<List<Integer>> threeSum1(int[] nums) {
         
         if ((nums == null) || (nums.length < 3)) {
             return Collections.emptyList();
