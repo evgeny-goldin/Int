@@ -1,21 +1,23 @@
 class Solution {
     
     // 15. 3Sum - https://leetcode.com/problems/3sum/
+    // https://leetcode.com/problems/3sum/discuss/432592/Simple-and-short-Java-solution
     
     public List<List<Integer>> threeSum2(int[] nums) {
         List<List<Integer>> solutionSet = new ArrayList<List<Integer>>();        
         Arrays.sort(nums);
         
         for(int a = 0; a < nums.length - 2; a++) {
-            if(a != 0 && nums[a] == nums[a - 1]) continue;
+            if((a > 0) && (nums[a] == nums[a - 1])) continue;
             int b = a + 1;
             int c = nums.length - 1;
             while (b < c) {
-                if(nums[a] + nums[b] + nums[c] == 0) {
+                int sum = nums[a] + nums[b] + nums[c]; 
+                if(sum == 0) {
                     solutionSet.add(Arrays.asList(nums[a], nums[b], nums[c]));
                     b++;
-                    while(b < c && nums[b] == nums[b - 1]) b++;
-                } else if(nums[a] + nums[b] + nums[c] < 0) {
+                    while((b < c) && (nums[b] == nums[b - 1])) b++;
+                } else if (sum < 0) {
                     b++;
                 } else {
                     c--;
