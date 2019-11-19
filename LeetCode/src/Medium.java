@@ -181,11 +181,11 @@ class Solution {
         int n = s.length(), result = 0;
         int[] index = new int[128]; // current index of character
         // try to extend the range [i, j]
-        for (int j = 0, i = 0; j < n; j++) {
-            int ch = s.charAt(j);
-            i      = Math.max(index[ch], i);
-            result = Math.max(result, j - i + 1);
-            index[ch] = j + 1;
+        for (int right = 0, left = 0; right < n; right++) {
+            int ch = s.charAt(right);
+            left   = Math.max(index[ch], left);
+            result = Math.max(result, right - left + 1);
+            index[ch] = right + 1;
         }
         return result;
     }
