@@ -11,7 +11,38 @@ public class Easy {
     
     // 13. Roman to Integer - https://leetcode.com/problems/roman-to-integer/
     
-    public int romanToInt(String s) {
+    public int romanToInt2(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }       
+        
+        int sum = 0;
+        
+        Map<Character, Integer> map = new HashMap();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        
+        for (int j = 0; j < s.length(); j++) {
+            int n1 = map.get(s.charAt(j));
+            int n2 = (j < (s.length() - 1)) ? map.get(s.charAt(j+1)) : 0;
+            
+            if (n1 < n2) {
+                sum -= n1;
+            } else {
+                sum += n1;
+            }
+        }
+        
+        return sum;
+    }
+    
+    public int romanToInt1(String s) {
         if ((s == null) || (s.length() < 1)) {
             return 0;
         }       
