@@ -1,5 +1,88 @@
 class Solution {
     
+    // 15. 3Sum - https://leetcode.com/problems/3sum/
+    
+    private List<List<Integer>> twoSum(Map<Integer, List<Integer>> index, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        for (int num: index.keySet()) {
+            int otherNum = (target - num);
+            if (index.containsKey(otherNum)) {
+                for (int numIndex : index.get(num)) {
+                    for (int otherIndex: index.get(otherNum)) {
+                        if (numIndex < otherIndex) {
+                            result.add(Arrays.asList(num, numIndex, otherNum, otherIndex));
+                        }
+                    }
+                }
+            }                
+        }
+        
+        return result;
+    }
+    
+    public List<List<Integer>> threeSum(int[] nums) {
+        
+        if ((nums == null) || (nums.length < 3)) {
+            return Collections.emptyList();
+        }
+        
+        // N => list of indexes
+        Map<Integer, List<Integer>> index = new HashMap<>();
+        
+        for (int j = 0; j < nums.length; j++) {
+            List<Integer> indexes = index.get(nums[j]);
+            if (indexes == null) {
+                indexes = new ArrayList<>();
+                index.put(nums[j], indexes);
+            }
+            indexes.add(j);
+        } 
+        
+        if ((index.size() == 1) && index.containsKey(0)) {
+            return Arrays.asList(Arrays.asList(0, 0, 0));
+        }
+        
+        List<List<Integer>> result = new ArrayList<>();
+        boolean allZeroesIncluded = false;
+        
+        Set<String> set = new HashSet<>();
+        
+        for (int n1: index.keySet()) {
+            List<List<Integer>> twoSumPairs = twoSum(index, -n1);
+            
+            for (int n1Index: index.get(n1)) {
+                for (List<Integer> pair: twoSumPairs) {
+                    int n2      = pair.get(0);
+                    int n2Index = pair.get(1);
+                    int n3      = pair.get(2);
+                    int n3Index = pair.get(3);
+
+                    if ((n1Index < n2Index) && (n2Index < n3Index)) {
+                        if ((n1 == n2) && (n2 == n3)) {
+                            if (! allZeroesIncluded) {
+                                result.add(Arrays.asList(n1, n2, n3));
+                                allZeroesIncluded = true;
+                            }
+                        } else {
+                            
+                            int tn1  = Math.min(Math.min(n1, n2), n3);
+                            int tn3  = Math.max(Math.max(n1, n2), n3);
+                            int tn2  = n1 + n2 + n3 - tn1 - tn3;
+                            String s = tn1 + ":" + tn2 + ":" + tn3;
+                                                        
+                            if (set.add(s)) {
+                                result.add(Arrays.asList(tn1, tn2, tn3));
+                            }
+                        }                        
+                    }
+                }                            
+            }
+        }
+        
+        return result;
+    }
+    
     // 12. Integer to Roman - https://leetcode.com/problems/integer-to-roman/
     
     public String intToRoman(int n) {
