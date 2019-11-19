@@ -8,131 +8,27 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
-    
-    // 2. Add Two Numbers (Medium)
-    
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        }    
-        if (l2 == null) {
-            return l1;
-        }        
-        
-        ListNode dummy = new ListNode(-1);
-        ListNode l = dummy;
-        
-        for (int carryOver = 0; (l1 != null) || (l2 != null) || (carryOver > 0);) {
-            boolean isL1Over = (l1 == null);
-            boolean isL2Over = (l2 == null);
-            
-            int sum   = carryOver + (isL1Over ? 0 : l1.val) + (isL2Over ? 0 : l2.val);
-            int value = (sum > 9) ? sum - 10 : sum;
-            carryOver = (sum > 9) ? 1 : 0;
-            
-            l.next = new ListNode(value);
-            l  = l.next;
-            l1 = isL1Over ? null : l1.next;
-            l2 = isL2Over ? null : l2.next;
 
-            if ((isL1Over || isL1Over) && (! (isL1Over && isL2Over)) && (carryOver == 0)) {
-                l.next = (isL1Over ? l2 : l1);
-                break;
-            }
-        }
-        
-        return dummy.next;
-    }
-    
-    // 384. Shuffle an Array (Medium)
-    
-    private final int[] origin;
-    private final int[] array;
-    private final Random R = new Random();
-    
-    public Solution(int[] nums) {
-        if (nums == null) {
-            throw new NullPointerException();
-        }
-        
-        origin = Arrays.copyOfRange(nums, 0, nums.length);
-        array = new int[nums.length];
-    }
-    
-    /** Resets the array to its original configuration and return it. */
-    public int[] reset() {
-        return origin;
-    }
-    
-    private void swap(int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    
-    /** Returns a random shuffling of the array. */
-    public int[] shuffle2() {       
-        System.arraycopy(origin, 0, array, 0, origin.length);
-        for (int j = 0; j < array.length; j++) {
-            swap(j, j + R.nextInt(array.length - j));
-        }
-        return array;
-    }    
-    
-    private final int[] counters;
-    private final int[] origin;
-    private final int[] array;
-    private final Set<Integer> set = new HashSet<>();
-    
-    public Solution(int[] nums) {
-        if (nums == null) {
-            throw new NullPointerException();
-        }
-        
-        origin = Arrays.copyOfRange(nums, 0, nums.length);
-        counters = new int[nums.length];
-        array = new int[nums.length];
-    }
-    
-    /** Resets the array to its original configuration and return it. */
-    public int[] reset() {
-        return origin;
-    }
-    
-    private boolean isValidCounters() {
-        set.clear();
-        for (int j = 0; j < counters.length; j++) {
-            int index = j + counters[j];
-            if (index >= counters.length) {
-                index -= counters.length;
-            }
-            int number = origin[index];
-            if (set.add(number)) {
-                array[j] = number;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private void incrementCounters() {
-        do {
-            for (int j = 0; j < counters.length; j++) {            
-                counters[j] = (counters[j] < (counters.length - 1)) ? counters[j] + 1 : 0;
-                if (counters[j] != 0) {
-                    break;
-                }
-            }            
-        } while (! isValidCounters());
-    }
-        
-    /** Returns a random shuffling of the array. */
-    public int[] shuffle1() {       
-        incrementCounters();
-        return array;
-    }    
+    // 1. Two Sum (Easy)
 
+    public int[] twoSum(int[] nums, int target) {
+        if ((nums == null) || (nums.length < 2)) {
+            return new int[0];
+        }
+        
+        // number => index
+        Map<Integer, Integer> index = new HashMap<>();
+        for (int j = 0; j < nums.length; j++) {
+            int number = nums[j];
+            Integer otherIndex = index.get(target - number);
+            if (otherIndex != null) {
+                return new int[]{j, otherIndex};
+            }
+            index.put(number, j);
+        }
+        
+        return new int[0];
+    }
     
     // Fibonacci Sequence:
     // F(0) = 0, F(1) = 1, F(N) = F(N-1) + F(N-2)
