@@ -2,23 +2,16 @@ class Solution {
     
     // 49. Group Anagrams - https://leetcode.com/problems/group-anagrams/submissions/
     
-    private int[] a = new int[26];
+    private int[] primes = new int[]{2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101};
     
-    private String signature(String s) {
-        Arrays.fill(a, 0);
+    private Integer signature(String s) {
+        int signature = 1;
         
         for (int j = 0; j < s.length(); j++) {
-            a[s.charAt(j) - 'a']++;
+            signature *= primes[s.charAt(j) - 'a'];
         }        
 
-        StringBuilder b = new StringBuilder();
-        for (int j = 0; j < a.length; j++) {
-            if (a[j] > 0) {
-                b.append(a[j]);    
-            }
-            b.append(":");
-        }        
-        return b.toString();
+        return signature;
     }
     
     public List<List<String>> groupAnagrams(String[] strs) {
@@ -26,10 +19,10 @@ class Solution {
             return Collections.emptyList();
         }
 
-        Map<String, List<String>> map = new HashMap();
+        Map<Integer, List<String>> map = new HashMap();
 
         for (String s : strs) {
-            String signature = signature(s);
+            Integer signature = signature(s);
             List<String> l = map.get(signature);
             if (l == null) {
                 l = new ArrayList<>();
