@@ -1,5 +1,40 @@
 class Solution {
     
+    // 16. 3Sum Closest - https://leetcode.com/problems/3sum-closest/
+    
+    public int threeSumClosest(int[] nums, int target) {
+        if ((nums == null) || (nums.length < 3)) {
+            return 0;
+        }
+        
+        Arrays.sort(nums);
+        
+        int delta = Integer.MAX_VALUE;
+        int result = 0;
+        
+        for (int j = 0; j < (nums.length - 2); j++) {
+            for (int left = j + 1, right = nums.length - 1; left < right; ) {
+                int sum = nums[j] + nums[left] + nums[right];
+                if (sum == target) {
+                    return sum;
+                }
+                int d = Math.abs(sum - target); 
+                if (d < delta) {
+                    delta = d;
+                    result = sum;
+                }
+                if (sum > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+ 
+        }
+        
+        return result;
+    }
+    
     // 15. 3Sum - https://leetcode.com/problems/3sum/
     // https://leetcode.com/problems/3sum/discuss/432592/Simple-and-short-Java-solution
     
