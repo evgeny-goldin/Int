@@ -1,5 +1,45 @@
 class Solution {
     
+    // 49. Group Anagrams - https://leetcode.com/problems/group-anagrams/submissions/
+    
+    private int[] a = new int[26];
+    
+    private String signature(String s) {
+        Arrays.fill(a, 0);
+        
+        for (int j = 0; j < s.length(); j++) {
+            a[s.charAt(j) - 'a']++;
+        }        
+
+        StringBuilder b = new StringBuilder();
+        for (int j = 0; j < a.length; j++) {
+            if (a[j] > 0) {
+                b.append(a[j]);    
+            }
+            b.append(":");
+        }        
+        return b.toString();
+    }
+    
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if ((strs == null) || (strs.length < 1)) {
+            return Collections.emptyList();
+        }
+
+        Map<String, List<String>> map = new HashMap();
+
+        for (String s : strs) {
+            String signature = signature(s);
+            List<String> l = map.get(signature);
+            if (l == null) {
+                l = new ArrayList<>();
+                map.put(signature, l);
+            }
+            l.add(s);
+        }
+        
+        return new ArrayList(map.values());
+    }
  
     // 18. 4Sum - https://leetcode.com/problems/4sum/
  
