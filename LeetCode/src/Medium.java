@@ -2,8 +2,53 @@ class Solution {
     
  
     // 18. 4Sum - https://leetcode.com/problems/4sum/
+ 
+    private boolean isFound(int[] nums, int start, int end, int num) {
+        if (start >= end) {
+            return ((nums[start] == num) ? true : false);
+        }
+        
+        int middle = start + ((end - start) / 2);
+        return (num == nums[middle]) ? true : 
+               (num <  nums[middle]) ? isFound(nums, start, middle - 1, num) : 
+                                       isFound(nums, middle + 1, end, num); 
+    }
     
-    public List<List<Integer>> fourSum(int[] nums, int target) {
+    public List<List<Integer>> fourSum2(int[] nums, int target) {
+        if ((nums == null) || (nums.length < 4)) {
+            return Collections.emptyList();
+        }       
+        
+        Arrays.sort(nums);
+        
+        List<List<Integer>> result = new ArrayList();
+        
+        int n = nums.length;
+        
+        for (int i = 0; i < (n - 3); i++) {
+            if ((i > 0) && (nums[i] == nums[i-1])) { continue; }
+            
+            for (int j = i+1; j < (n - 2); j++) {
+                if ((j > (i+1)) && (nums[j] == nums[j-1])) { continue; } 
+                
+                for (int k = j+1; k < (n - 1); k++) {
+                    if ((k > (j+1)) && (nums[k] == nums[k-1])) { continue; }
+                    
+                    int m = target - nums[i] - nums[j] - nums[k];
+                    
+                    if ((nums[k+1] <= m) && (nums[n-1] >= m)) {
+                        if (isFound(nums, k+1, n-1, m)) {
+                            result.add(Arrays.asList(nums[i], nums[j], nums[k], m));                           
+                        }
+                    }                    
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public List<List<Integer>> fourSum1(int[] nums, int target) {
         if ((nums == null) || (nums.length < 4)) {
             return Collections.emptyList();
         }       
