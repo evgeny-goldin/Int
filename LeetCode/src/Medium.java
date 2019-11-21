@@ -1,4 +1,61 @@
 class Solution {
+
+    // 54. Spiral Matrix - https://leetcode.com/problems/spiral-matrix/
+    
+    public List<Integer> spiralOrder(int[][] matrix) {
+        if ((matrix == null) || (matrix.length < 1)) {
+            return Collections.emptyList();
+        }       
+        
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean isVertical = (m > n);
+        int layers = (isVertical ? n/2 : m/2);
+        
+        List<Integer> result = new ArrayList(m * n);
+        
+        for (int layer = 0, row = 0, column = 0; layer < layers; layer++) {
+            row = layer;
+            
+            for (column = layer; column < (n - 1 - layer); column++) {
+                result.add(matrix[row][column]);
+            }
+            
+            column = n - 1 - layer;
+            
+            for (row = layer; row < (m - 1 - layer); row++) {
+                result.add(matrix[row][column]);
+            }
+
+            row = m - 1 - layer;
+            
+            for (column = n - 1 - layer; column > layer; column--) {
+                result.add(matrix[row][column]);
+            }
+            
+            column = layer;
+            
+            for (row = m - 1 - layer; row > layer; row--) {
+                result.add(matrix[row][column]);
+            }            
+        }
+        
+        if (isVertical && ((n & 1) == 1)) {
+            int column = layers; // n/2 
+            for (int row = layers; row <= (m - 1 - layers); row++) {
+                result.add(matrix[row][column]);
+            }                                                                        
+        }
+        
+        if ((!isVertical) && ((m & 1) == 1)) {
+            int row = layers; // m/2 
+            for (int column = layers; column <= (n - 1 - layers); column++) {
+                result.add(matrix[row][column]);
+            }                                                        
+        }
+
+        return result;
+    }
     
     // 49. Group Anagrams - https://leetcode.com/problems/group-anagrams/submissions/
     
