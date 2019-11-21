@@ -10,25 +10,24 @@ class Solution {
             count[a]++;
         }
 
-        int counter = t.length(), left = 0, right = 0;
-        int head = -1, window = Integer.MAX_VALUE;
+        int lettersNeeded = t.length(), left = 0, right = 0, start = -1, window = Integer.MAX_VALUE;
         
         while (right < s.length()) {
-          if ((count[s.charAt(right++)]--) > 0) {
-              counter--;
+          if ((--count[s.charAt(right++)]) > -1) {
+              lettersNeeded--;
           }
             
-          while (counter == 0) {
+          while (lettersNeeded == 0) {
             if ((right - left) < window) {
-              head = left;
+              start = left;
               window = right - left;
             }
-            if ((count[s.charAt(left++)]++) == 0) {
-                counter++;
+            if ((++count[s.charAt(left++)]) == 1) {
+                lettersNeeded++;
             }
           }
         }
         
-        return ((head == -1) ? "" : s.substring(head, head + window));
+        return ((start == -1) ? "" : s.substring(start, start + window));
     }
 }
