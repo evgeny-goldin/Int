@@ -4,16 +4,16 @@ class Solution {
     
     public String minWindow(String s, String t) {
         
-        int[] count = new int[128];
+        int[] counters = new int[128];
         
         for (char a : t.toCharArray()) {
-            count[a]++;
+            counters[a]++;
         }
 
         int lettersNeeded = t.length(), left = 0, right = 0, start = -1, window = Integer.MAX_VALUE;
         
         while (right < s.length()) {
-          if ((--count[s.charAt(right++)]) > -1) {
+          if ((--counters[s.charAt(right++)]) > -1) {
               lettersNeeded--;
           }
             
@@ -22,7 +22,7 @@ class Solution {
               start = left;
               window = right - left;
             }
-            if ((++count[s.charAt(left++)]) == 1) {
+            if ((++counters[s.charAt(left++)]) == 1) {
                 lettersNeeded++;
             }
           }
