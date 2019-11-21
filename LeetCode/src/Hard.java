@@ -10,20 +10,20 @@ class Solution {
             counters[a]++;
         }
 
-        int lettersNeeded = t.length(), left = 0, right = 0, start = -1, window = Integer.MAX_VALUE;
+        int missingLetters = t.length(), left = 0, right = 0, start = -1, window = Integer.MAX_VALUE;
         
         while (right < s.length()) {
           if ((--counters[s.charAt(right++)]) > -1) {
-              lettersNeeded--;
+              missingLetters--;
           }
             
-          while (lettersNeeded == 0) {
+          while (missingLetters == 0) {
             if ((right - left) < window) {
               start = left;
               window = right - left;
             }
             if ((++counters[s.charAt(left++)]) == 1) {
-                lettersNeeded++;
+                missingLetters++;
             }
           }
         }
