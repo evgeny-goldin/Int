@@ -18,6 +18,7 @@ public class Easy {
         }    
         
         int result = nums.length;
+        
         for (int j = 0; j < nums.length; j++) {
             result += (j - nums[j]);
         }
