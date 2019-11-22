@@ -1,5 +1,44 @@
 class Solution {
 
+    // 229. Majority Element II - https://leetcode.com/problems/majority-element-ii/
+
+    public List<Integer> majorityElement(int[] nums) {
+        
+        int a1 = -1, a2 = -1, n1 = 0, n2 = 0;
+        
+        for (int i : nums) {
+            if (((n1 == 0) && (i != a2)) || (i == a1)) {
+                a1 = i;
+                n1++;
+            } else if ((n2 == 0) || (i == a2)) {
+                a2 = i;
+                n2++;
+            } else {
+                n1--;
+                n2--;
+            }
+        }
+        
+        n1 = 0;
+        n2 = 0;
+        
+        for (int i : nums) {
+            if (a1 == i) {
+                n1++;
+            } else if (a2 == i) {
+                n2++;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>(2);
+
+        if (n1 > (nums.length/3)) { result.add(a1); }
+        if (n2 > (nums.length/3)) { result.add(a2); }
+        
+        return result;
+    }
+
+
     // 54. Spiral Matrix - https://leetcode.com/problems/spiral-matrix/
     
     public List<Integer> spiralOrder(int[][] matrix) {
