@@ -8,6 +8,37 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+
+    // 169. Majority Element - https://leetcode.com/problems/majority-element/
+    
+    public int majorityElement2(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }       
+        
+        int candidate = nums[0];
+        
+        for (int j = 1, counter = 1; j < nums.length; j++) {
+            counter += ((nums[j] == candidate) ? 1 : -1); 
+
+            if (counter == 0) {
+                candidate = nums[j];
+                counter = 1;
+            }
+        }
+        
+        return candidate;
+    }
+
+    public int majorityElement1(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }       
+        
+        Arrays.sort(nums);
+        return nums[nums.length / 2];
+    }
+
     
     // 13. Roman to Integer - https://leetcode.com/problems/roman-to-integer/
     
