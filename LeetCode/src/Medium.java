@@ -4,13 +4,13 @@ class Solution {
 
     public List<Integer> majorityElement(int[] nums) {
         
-        int a1 = -1, a2 = -1, n1 = 0, n2 = 0;
+        int a1 = 0, a2 = 0, n1 = 0, n2 = 0;
         
         for (int i : nums) {
-            if (((n1 == 0) && (i != a2)) || (i == a1)) {
+            if (((n1 == 0) && (i != a2)) || (a1 == i)) {
                 a1 = i;
                 n1++;
-            } else if ((n2 == 0) || (i == a2)) {
+            } else if ((n2 == 0) || (a2 == i)) {
                 a2 = i;
                 n2++;
             } else {
@@ -37,7 +37,6 @@ class Solution {
         
         return result;
     }
-
 
     // 54. Spiral Matrix - https://leetcode.com/problems/spiral-matrix/
     
