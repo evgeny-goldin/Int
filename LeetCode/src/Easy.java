@@ -8,6 +8,22 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+    
+    
+    // 268. Missing Number - https://leetcode.com/problems/missing-number/
+    
+    public int missingNumber(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return 0;
+        }    
+        
+        int result = nums.length;
+        for (int j = 0; j < nums.length; j++) {
+            result += (j - nums[j]);
+        }
+        
+        return result;
+    }
 
     // 169. Majority Element - https://leetcode.com/problems/majority-element/
     
