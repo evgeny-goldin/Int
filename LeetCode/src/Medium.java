@@ -19,6 +19,15 @@ class Solution {
             }
         }
         
+        List<Integer> result = new ArrayList<>(2);
+
+        if (n1 > (nums.length/3)) { result.add(a1); }
+        if (n2 > (nums.length/3)) { result.add(a2); }
+
+        if (result.size() > 1) {
+            return result;
+        }
+        
         n1 = 0;
         n2 = 0;
         
@@ -30,7 +39,7 @@ class Solution {
             }
         }
 
-        List<Integer> result = new ArrayList<>(2);
+        result.clear();
 
         if (n1 > (nums.length/3)) { result.add(a1); }
         if (n2 > (nums.length/3)) { result.add(a2); }
