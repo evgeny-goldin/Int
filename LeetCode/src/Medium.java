@@ -40,7 +40,6 @@ class Solution {
         return answer;
     }
 
-
     // 229. Majority Element II - https://leetcode.com/problems/majority-element-ii/
 
     public List<Integer> majorityElement(int[] nums) {
