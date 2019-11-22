@@ -9,6 +9,22 @@ import java.util.Set;
 
 public class Easy {
     
+    // 387. First Unique Character in a String - https://leetcode.com/problems/first-unique-character-in-a-string/
+    
+    public int firstUniqChar(String s) {
+        int[] indexes = new int[26];
+        
+        for (int j = 0; j < s.length(); j++) {
+            int i = s.charAt(j) - 'a';
+            indexes[i] = (indexes[i] == 0) ? j + 1 : -1; 
+        }
+        
+        int min = Integer.MAX_VALUE;
+        for (int j = 0; j < indexes.length; j++) {
+            min = (indexes[j] > 0) ? Math.min(min, indexes[j]) : min;
+        }
+        return ((min == Integer.MAX_VALUE) ? -1 : (min - 1));
+    }
     
     // 268. Missing Number - https://leetcode.com/problems/missing-number/
     
