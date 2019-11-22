@@ -30,11 +30,10 @@ class Solution {
         // so the R would be 1
         int R = 1;
         for (int i = length - 1; i >= 0; i--) {
-
             // For the index 'i', R would contain the 
             // product of all elements to the right. We update R accordingly
-            answer[i] = answer[i] * R;
-            R *= nums[i];
+            answer[i] *= R;
+            R         *= nums[i];
         }
 
         return answer;
