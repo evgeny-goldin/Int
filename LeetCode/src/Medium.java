@@ -20,7 +20,7 @@ class Solution {
             return null;
         }
         
-        if (p == q) {
+        if (p.val == q.val) {
             return p;
         }
         
