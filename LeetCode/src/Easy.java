@@ -9,6 +9,28 @@ import java.util.Set;
 
 public class Easy {
     
+    // 235. Lowest Common Ancestor of a Binary Search Tree - https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if ((root == null) || (p == null) || (q == null)) {
+            return null;
+        }
+        
+        if (q.val < p.val) {
+            TreeNode temp = p;
+            p = q;
+            q = temp;
+        }
+        
+        if ((p.val <= root.val) && (q.val >= root.val)) {
+            return root;
+        }
+        
+        return (((p.val < root.val) && (q.val < root.val)) ? 
+                lowestCommonAncestor(root.left,  p, q) :
+                lowestCommonAncestor(root.right, p, q));
+    }
+    
     // 387. First Unique Character in a String - https://leetcode.com/problems/first-unique-character-in-a-string/
     
     public int firstUniqChar(String s) {
