@@ -1,5 +1,32 @@
 class Solution {
 
+    // 236. Lowest Common Ancestor of a Binary Tree - https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+    private TreeNode dfs(TreeNode node, TreeNode p, TreeNode q) {
+        if ((node.val == p.val) || (node.val == q.val)) {
+            return node;
+        }
+        
+        TreeNode left  = (node.left  == null) ? null : dfs(node.left, p, q);
+        TreeNode right = (node.right == null) ? null : dfs(node.right, p, q);
+        
+        return ((left  == null) ? right : 
+                (right == null) ? left  :
+                                  node);        
+    }
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if ((root == null) || (p == null) || (q == null)) {
+            return null;
+        }
+        
+        if (p == q) {
+            return p;
+        }
+        
+        return dfs(root, p, q);
+    }
+
     // 200. Number of Islands - https://leetcode.com/problems/number-of-islands/
 
     void mark(char[][] grid, int row, int column) {
