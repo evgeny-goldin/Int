@@ -1,5 +1,67 @@
 class Solution {
 
+    // 133. Clone Graph - https://leetcode.com/problems/clone-graph/
+
+    private void updateValues(Node node, Map<Integer, List<Integer>> values) {
+        if (values.containsKey(node.val)) {
+            return;
+        }
+        
+        List<Integer> nodeValues = new ArrayList(node.neighbors.size());
+        values.put(node.val, nodeValues);
+        
+        for (Node n: node.neighbors) {
+            nodeValues.add(n.val);
+            updateValues(n, values);
+        }
+    }
+    
+    public Node cloneGraph(Node node) {
+        
+        if (node == null) {
+            return null;
+        }
+        
+        if (node.neighbors.size() < 1) {
+            return new Node(node.val, Collections.emptyList());
+        }
+        
+        Map<Integer, List<Integer>> values = new HashMap<>();
+        
+        updateValues(node, values);
+        
+        Map<Integer, Node> nodes = new HashMap<>(values.size());
+        
+        for (int val : values.keySet()) {
+            List<Integer> neighborsValues = values.get(val);
+            List<Node> neighbors = new ArrayList(neighborsValues.size());
+            Node n = nodes.get(val);
+            
+            if (n == null) {
+                n = new Node();
+                n.val = val;
+                nodes.put(val, n);
+            }
+
+            n.neighbors = neighbors;
+                                                 
+            for (int neighborValue: neighborsValues) {                
+                Node neighbor = nodes.get(neighborValue);
+                
+                if (neighbor == null) {
+                    neighbor = new Node();
+                    neighbor.val = neighborValue;
+                    nodes.put(neighborValue, neighbor);
+                }
+
+                neighbors.add(neighbor);
+            }
+        }
+        
+        return nodes.get(node.val);
+    }
+
+
     // 238. Product of Array Except Self - https://leetcode.com/problems/product-of-array-except-self/
 
     public int[] productExceptSelf(int[] nums) {
