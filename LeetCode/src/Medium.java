@@ -2,6 +2,28 @@ class Solution {
 
     // 133. Clone Graph - https://leetcode.com/problems/clone-graph/
 
+    private Map<Node, Node> nodes = new HashMap<>();
+    
+    public Node cloneGraph2(Node node) {
+        
+        if (node == null) {
+            return null;
+        }
+        
+        Node n = nodes.get(node);
+        
+        if (n == null) {
+            n = new Node(node.val, new ArrayList());
+            nodes.put(node, n);
+
+            for (Node neighbor: node.neighbors) {
+                n.neighbors.add(cloneGraph(neighbor));
+            }
+        }
+        
+        return n;
+    }
+
     private void updateValues(Node node, Map<Integer, List<Integer>> values) {
         if (values.containsKey(node.val)) {
             return;
@@ -16,7 +38,7 @@ class Solution {
         }
     }
     
-    public Node cloneGraph(Node node) {
+    public Node cloneGraph1(Node node) {
         
         if (node == null) {
             return null;
