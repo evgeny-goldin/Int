@@ -1,5 +1,45 @@
 class Solution {
 
+    // 200. Number of Islands - https://leetcode.com/problems/number-of-islands/
+
+    void mark(char[][] grid, int row, int column) {
+      
+        int rows = grid.length;
+        int columns = grid[0].length;
+
+        if ((row < 0) || (column < 0) || (row >= rows) || (column >= columns) || (grid[row][column] == '0')) {
+          return;
+        }
+
+        grid[row][column] = '0';
+
+        mark(grid, row - 1, column);
+        mark(grid, row + 1, column);
+        mark(grid, row, column - 1);
+        mark(grid, row, column + 1);
+    }
+
+    public int numIslands(char[][] grid) {
+        if ((grid == null) || (grid.length < 1) || (grid[0].length < 1)) {
+            return 0;
+        }
+
+        int rows = grid.length;
+        int columns = grid[0].length;
+        int result = 0;
+
+        for (int row = 0; row < rows; row++) {
+            for (int column = 0; column < columns; column++) {
+                if (grid[row][column] == '1') {
+                  result++;
+                  mark(grid, row, column);
+                }
+            }
+        }
+
+        return result;
+    }
+
     // 133. Clone Graph - https://leetcode.com/problems/clone-graph/
 
     private Map<Node, Node> nodes = new HashMap<>();
