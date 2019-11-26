@@ -10,11 +10,11 @@ class Solution {
 
     public void nextPermutation(int[] nums) {
         
-        // Searching for the first drop, from right to left
+        // Searching for the first drop (at i), from right to left
         int i = nums.length - 2;
         for (; (i >= 0) && (nums[i] >= nums[i + 1]); i--);
         
-        // Searching for the first number the drop can be replaced with
+        // Searching for the first number larger than drop (at j)
         if (i >= 0) {
             int j = nums.length - 1;
             for (; (j >= 0) && nums[i] >= nums[j]; j--);
