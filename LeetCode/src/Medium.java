@@ -1,5 +1,32 @@
 class Solution {
 
+    // 31. Next Permutation - https://leetcode.com/problems/next-permutation/
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i]  = nums[j];
+        nums[j]  = temp;
+    }
+
+    public void nextPermutation(int[] nums) {
+        
+        // Searching for the first drop, from right to left
+        int i = nums.length - 2;
+        for (; (i >= 0) && (nums[i] >= nums[i + 1]); i--);
+        
+        // Searching for the first number the drop can be replaced with
+        if (i >= 0) {
+            int j = nums.length - 1;
+            for (; (j >= 0) && nums[i] >= nums[j]; j--);
+            swap(nums, i, j);
+        }
+
+        // Reversing between [i+1, nums.length-1]
+        for (int j = 0; j < ((nums.length - 1 - i) / 2); j++) {
+            swap(nums, i + 1 + j, nums.length - 1 - j);
+        }
+    }
+
     // 236. Lowest Common Ancestor of a Binary Tree - https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
     private TreeNode dfs(TreeNode node, TreeNode p, TreeNode q) {
