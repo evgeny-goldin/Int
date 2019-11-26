@@ -8,6 +8,31 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+
+    // 543. Diameter of Binary Tree - https://leetcode.com/problems/diameter-of-binary-tree/
+    
+    private int max = 0;
+    
+    private int depth(TreeNode node) {
+        if (node == null) {
+            return -1;
+        }
+        
+        int left  = depth(node.left);
+        int right = depth(node.right);
+        max       = Math.max(max, left + right + 2);
+        return (1 + Math.max(left, right));
+    }
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        depth(root);
+        return max;
+    }
+    
     
     // 235. Lowest Common Ancestor of a Binary Search Tree - https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
     
