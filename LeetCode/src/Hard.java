@@ -1,5 +1,49 @@
 class Solution {
     
+    // 158. Read N Characters Given Read4 II - Call multiple times - https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/
+    
+    private int    lStart    = 0; // Leftovers start, inclusive
+    private int    lEnd      = 0; // Leftovers end, exclusive
+    private char[] leftovers = new char[4];
+    
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    public int read(char[] buf, int n) {
+        if ((buf == null) || (buf.length < 1) || (n < 1)) { 
+            return 0; 
+        }     
+        
+        int p = 0; 
+        
+        // Trying leftovers first
+        for (int j = 0, times = Math.min(lEnd - lStart, n); j < times; j++, n--) {
+            buf[p++] = leftovers[lStart++];
+        }     
+
+        while (n > 0) {    
+            
+            int r = read4(leftovers);
+            
+            // No more data left to read
+            if (r < 1) { break; }
+            
+            // Consuming as much as we need, potentially less than what we've just read
+            for (int j = 0, times = Math.min(r, n); j < times; j++) { 
+                buf[p++] = leftovers[j]; 
+            }      
+            
+            // Setting leftovers boundaries
+            lStart = Math.min(r, n);
+            lEnd   = r;            
+            n     -= r;
+        } 
+
+        return p;        
+    }
+    
     // 329. Longest Increasing Path in a Matrix - https://leetcode.com/problems/longest-increasing-path-in-a-matrix/
     
     private int[][] cache;
