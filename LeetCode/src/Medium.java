@@ -1,5 +1,67 @@
 class Solution {
 
+    // 43. Multiply Strings - https://leetcode.com/problems/multiply-strings/
+
+    /**
+     * Multiples "a" by "n" storing result in "result" starting at index "start"
+     * Returns the index of the last stored number in the "result"  
+     */
+    private int multiply(int[] a, int n, int[] result, int start) {
+        int carryOver = 0;
+        
+        for (int j = a.length - 1; j >= 0; j--, start++) {
+            int res       = (a[j] * n) + carryOver + result[start];
+            carryOver     = (res > 9) ? (res / 10) : 0;
+            result[start] = (res > 9) ? res - (carryOver * 10) : res;
+        }
+        
+        for (; carryOver > 0; start++) {
+            int res       = carryOver + result[start];
+            carryOver     = (res > 9) ? (res / 10) : 0;
+            result[start] = (res > 9) ? res - (carryOver * 10) : res;            
+        }
+        
+        return start - 1;
+    }
+    
+    public String multiply(String s1, String s2) {
+        if ((s1 == null) || (s1.length() < 1) || (s2 == null) || (s2.length() < 1)) {
+            return null;
+        }       
+        
+        if ("0".equals(s1) || "0".equals(s2)) {
+            return "0";
+        }
+        
+        int l1 = s1.length();
+        int l2 = s2.length();
+        
+        String s = ((l1 < l2) ? s1 : s2); // Short
+        String l = ((l1 < l2) ? s2 : s1); // Long
+        int[]  ld = new int[l.length()];  // Long's digits
+        
+        for (int j = 0; j < ld.length; j++) {
+            ld[j] = l.charAt(j) - '0';
+        }
+        
+        int[] result = new int[(l1 + l2)*2];
+        int lastDigit = 0;
+        
+        for (int j = s.length() - 1, start = 0; j >= 0; j--, start++) {
+            lastDigit = multiply(ld, s.charAt(j) - '0', result, start);
+        }
+        
+        // Reversing the result array starting from lastDigit 
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for (int j = lastDigit; j >= 0; j--) {
+            sb.append(result[j]);
+        }
+        
+        return sb.toString();
+    }
+
     // 31. Next Permutation - https://leetcode.com/problems/next-permutation/
 
     private void swap(int[] nums, int i, int j) {
