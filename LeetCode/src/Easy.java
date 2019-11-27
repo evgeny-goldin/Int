@@ -8,6 +8,44 @@ import java.util.Map;
 import java.util.Set;
 
 public class Easy {
+    
+    // 67. Add Binary - https://leetcode.com/problems/add-binary/
+    
+    public String addBinary(String s1, String s2) {
+        if ((s1 == null) || (s1.length() < 1) || (s2 == null) || (s2.length() < 1)) {
+            return null;
+        }
+        
+        if ("0".equals(s1)) { return s2; }
+        if ("0".equals(s2)) { return s1; }
+        
+        int l1 = s1.length();
+        int l2 = s2.length();
+        int[] result = new int[(l1 < l2 ? l2 : l1) + 1];
+        int carryOver = 0, pr = 0;
+        
+        for (int j1 = l1 - 1, j2 = l2 - 1; (j1 >= 0) || (j2 >= 0); j1--, j2--) {
+            int res      = ((j1 >= 0) ? (s1.charAt(j1) - '0') : 0) + 
+                           ((j2 >= 0) ? (s2.charAt(j2) - '0') : 0) + 
+                           carryOver;
+            carryOver    = (res > 1) ? res / 2 : 0;
+            result[pr++] = (res > 1) ? res - (carryOver * 2) : res; 
+        }
+        
+        if (carryOver > 0) {
+            result[pr++] = 1;
+        }    
+        
+        // Reversing the result
+        
+        StringBuilder b = new StringBuilder();
+        
+        for (int j = pr - 1; j >= 0; j--) {
+            b.append(result[j]);
+        }
+        
+        return b.toString();
+    }
 
     // 543. Diameter of Binary Tree - https://leetcode.com/problems/diameter-of-binary-tree/
     
