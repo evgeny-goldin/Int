@@ -9,6 +9,26 @@ import java.util.Set;
 
 public class Easy {
     
+    // 157. Read N Characters Given Read4 - https://leetcode.com/problems/read-n-characters-given-read4/
+    
+    public int read(char[] buf, int n) {
+        if ((buf == null) || (buf.length < 1) || (n < 1)) {
+            return 0;
+        }    
+        
+        int p = 0;
+        char[] b = new char[4];
+        
+        for (int r = 1; (n > 0) && (r > 0); n -= r) {
+            r = read4(b);
+            for (int j = 0; j < Math.min(r, n); j++) {
+                buf[p++] = b[j];
+            }            
+        }
+        
+        return p;
+    }
+    
     // 67. Add Binary - https://leetcode.com/problems/add-binary/
     
     public String addBinary2(String s1, String s2) {
