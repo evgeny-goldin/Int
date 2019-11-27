@@ -11,7 +11,42 @@ public class Easy {
     
     // 67. Add Binary - https://leetcode.com/problems/add-binary/
     
-    public String addBinary(String s1, String s2) {
+    public String addBinary2(String s1, String s2) {
+        if ((s1 == null) || (s1.length() < 1) || (s2 == null) || (s2.length() < 1)) {
+            return null;
+        }
+        
+        if ("0".equals(s1)) { return s2; }
+        if ("0".equals(s2)) { return s1; }
+        
+        int l1 = s1.length();
+        int l2 = s2.length();
+        int[] result = new int[(l1 < l2 ? l2 : l1) + 1];
+        int carryOver = 0, pr = 0;
+        
+        for (int j1 = l1 - 1, j2 = l2 - 1; (j1 >= 0) || (j2 >= 0); j1--, j2--) {
+            int x        = ((j1 >= 0) ? (s1.charAt(j1) - '0') : 0);
+            int y        = ((j2 >= 0) ? (s2.charAt(j2) - '0') : 0);
+            result[pr++] = (x ^ y) ^ carryOver; 
+            carryOver    = ((x == 0) && (y == 0) && (carryOver == 1)) ? 0 : (x & y) | carryOver;
+        }
+        
+        if (carryOver > 0) {
+            result[pr++] = 1;
+        }    
+        
+        // Reversing the result
+        
+        StringBuilder b = new StringBuilder();
+        
+        for (int j = pr - 1; j >= 0; j--) {
+            b.append(result[j]);
+        }
+        
+        return b.toString();
+    }
+    
+    public String addBinary1(String s1, String s2) {
         if ((s1 == null) || (s1.length() < 1) || (s2 == null) || (s2.length() < 1)) {
             return null;
         }
