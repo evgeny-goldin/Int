@@ -1,5 +1,48 @@
 class Solution {
 
+    // 161. One Edit Distance - https://leetcode.com/problems/one-edit-distance/
+
+    public boolean isOneEditDistance(String s, String t) {
+        if ((s == null) || (t == null)) {
+            return false;
+        }       
+        
+        int sl = s.length();
+        int tl = t.length();
+        
+        if ((Math.abs(sl - tl) > 1) || ((sl + tl) == 0)) {
+            return false;
+        }
+        
+        if ((sl + tl) == 1) {
+            return true;
+        }
+        
+        String shorter = ((sl < tl) ? s : t);
+        String longer  = ((sl < tl) ? t : s);
+        int    diff    = 0;
+        
+        for (int ps = 0, pl = 0; (ps < shorter.length()) && (pl < longer.length());) {
+            if (shorter.charAt(ps) == longer.charAt(pl)) {
+                ps++;
+                pl++;
+                continue;
+            }
+            
+            if ((++diff) > 1) { return false; }
+
+            pl++;
+            if (sl == tl) { ps++; }
+        }
+                
+        if (sl == tl) {
+            return (diff == 1);
+        } else {
+            return (diff == 0) || 
+                   (shorter.charAt(shorter.length() - 1) == longer.charAt(longer.length() - 1));        
+        }
+    }
+
     // 43. Multiply Strings - https://leetcode.com/problems/multiply-strings/
 
     /**
