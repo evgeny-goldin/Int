@@ -903,15 +903,17 @@ class Solution {
     // 3. Longest Substring Without Repeating Characters
     
     public int lengthOfLongestSubstring3(String s) {
-        int n = s.length(), result = 0;
-        int[] index = new int[128]; // current index of character
-        // try to extend the range [i, j]
-        for (int right = 0, left = 0; right < n; right++) {
-            int ch = s.charAt(right);
-            left   = Math.max(index[ch], left);
-            result = Math.max(result, right - left + 1);
+        int result = 0;
+        int[] index = new int[128]; // Last character's index
+        
+        // Extendint the [left, right] range
+        for (int right = 0, left = 0; right < s.length(); right++) {
+            int ch    = s.charAt(right);
+            left      = Math.max(index[ch], left);
+            result    = Math.max(result, right - left + 1);
             index[ch] = right + 1;
         }
+        
         return result;
     }
     
