@@ -847,8 +847,7 @@ class Solution {
     public int[] shuffle1() {       
         incrementCounters();
         return array;
-    }    
-    
+    }
     
     // 5. Longest Palindromic Substring
     
@@ -899,6 +898,37 @@ class Solution {
                 
         return (c.size < s.length()) ? s.substring(c.start, c.end + 1) : s;
     }   
+    
+    // 159. Longest Substring with At Most Two Distinct Characters - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
+    
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        
+        if (s == null) {
+            return 0;
+        }
+        
+        if (s.length() < 3) {
+            return s.length();
+        }
+        
+        int[] counters = new int[128];
+        int   result   = 0;
+        
+        for(int size = 0, left = 0, right = 0; right < s.length(); right++){
+            int ch = s.charAt(right);
+            
+            if ((counters[ch]++) == 0) { size++; }
+                        
+            while (size > 2) {
+                ch = s.charAt(left++);
+                if((--counters[ch]) == 0) { size--; }
+            }
+            
+            result = Math.max(result, right - left + 1);
+        }
+        
+        return result;
+    }
     
     // 3. Longest Substring Without Repeating Characters
     
