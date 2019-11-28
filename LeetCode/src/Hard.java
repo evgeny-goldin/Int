@@ -1,5 +1,39 @@
 class Solution {
     
+    // 340. Longest Substring with At Most K Distinct Characters - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+    
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if ((s == null) || (s.length() < 1) || (k < 1)) {
+            return 0;
+        }       
+        
+        if (s.length() <= k) {
+            return s.length();
+        }
+        
+        int result = 0; 
+        int[] counters = new int[128];
+        
+        for (int left = 0, right = 0, size = 0; right < s.length(); right++) {
+            int ch = s.charAt(right);
+            
+            if ((counters[ch]++) == 0) {
+                size++;
+            }
+            
+            while (size > k) {
+                ch = s.charAt(left++);
+                if ((--counters[ch]) == 0) {
+                    size--;
+                }
+            }
+            
+            result = Math.max(result, right - left + 1);
+        }
+        
+        return result;
+    }
+    
     // 273. Integer to English Words - https://leetcode.com/problems/integer-to-english-words/
     
     private int BILLION  = 1000000000;
