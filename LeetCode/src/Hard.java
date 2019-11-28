@@ -1,5 +1,90 @@
 class Solution {
     
+    // 273. Integer to English Words - https://leetcode.com/problems/integer-to-english-words/
+    
+    private int BILLION  = 1000000000;
+    private int MILLION  = 1000000;
+    private int THOUSAND = 1000;
+    private int HUNDRED  = 100;
+    
+    private String[] TWENTY = new String[]{
+        null, "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine ", "Ten ",
+        "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen "
+    };
+    
+    private String[] TENS = new String[]{
+        null, null, "Twenty ", "Thirty ", "Forty ", "Fifty ", "Sixty ", "Seventy ", "Eighty ", "Ninety "
+    }; 
+    
+    private void add(StringBuilder b, int n, String title) {
+        if (n < 1) {
+            return;
+        }
+        
+        // [1..999]
+        
+        if (n >= HUNDRED) {
+            int hundreds = n / HUNDRED;
+            b.append(TWENTY[hundreds]).append("Hundred ");
+            n -= (hundreds * HUNDRED);            
+        }
+
+        // [1..99]
+        
+        if (n > 19) {
+            // [20..99]
+            int tens = n / 10;
+            b.append(TENS[tens]);
+            n -= (tens * 10);
+        } 
+        
+        if (n > 0) {
+            // [1..19]
+            b.append(TWENTY[n]);            
+        }
+        
+        if (title != null) {
+            b.append(title);
+        }
+    }
+    
+    public String numberToWords(int n) {
+        
+        if (n < 0) {
+            return null;
+        }
+        
+        if (n == 0) {
+            return "Zero";
+        }
+        
+        StringBuilder b = new StringBuilder();
+        
+        if (n >= BILLION) {
+            int billions = n / BILLION;
+            add(b, billions, "Billion ");
+            n -= (billions * BILLION);            
+        }
+           
+        if (n >= MILLION) {
+            int millions = n / MILLION;
+            add(b, millions, "Million ");
+            n -= millions * MILLION;
+        }
+
+        if (n >= THOUSAND) {
+            int thousands = n / THOUSAND;
+            add(b, thousands, "Thousand ");
+            n -= thousands * THOUSAND;
+        }
+        
+        if (n > 0) {
+            add(b, n, null);        
+        }
+        
+        return b.toString().trim();
+    }
+
     // 158. Read N Characters Given Read4 II - Call multiple times - https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/
     
     private int    lStart    = 0; // Leftovers start, inclusive
