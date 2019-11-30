@@ -1,5 +1,26 @@
 class Solution {
 
+    // 560. Subarray Sum Equals K - https://leetcode.com/problems/subarray-sum-equals-k/
+
+    public int subarraySum(int[] nums, int k) {
+
+        for(int i = 1; i < nums.length; i++){
+            nums[i] += nums[i-1];
+        }
+
+        Map<Integer,Integer> prefix = new HashMap<>();
+        prefix.put(0,1);
+
+        int result = 0;
+
+        for(int i = 0; i < nums.length; i++){
+            result += prefix.getOrDefault(nums[i] - k, 0);
+            prefix.put(nums[i], prefix.getOrDefault(nums[i], 0) + 1);
+        }
+
+        return result;
+    }
+
     // 395. Longest Substring with At Least K Repeating Characters - https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/
 
 	public int longestSubstring(String s, int k) {
