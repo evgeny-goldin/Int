@@ -1,5 +1,35 @@
 class Solution {
 
+    // 395. Longest Substring with At Least K Repeating Characters - https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/
+
+	public int longestSubstring(String s, int k) {
+		return longestSubstring(s, k, 0, s.length());
+	}
+
+	private int longestSubstring(String s, int k, int start, int end) {
+
+		if ((end - start) < k) { return 0; }
+		
+        int[] counters = new int[26];
+    
+		for (int i = start; i < end; i++) {
+			counters[s.charAt(i) - 'a']++;
+		}
+
+		int left = start, result = 0;
+
+		for (int i = start; i < end; i++) {
+            int counter = counters[s.charAt(i) - 'a']; 
+			if (counter < k) {
+				result = Math.max(result, longestSubstring(s, k, left, i));
+				left = i + 1;
+			}
+		}
+		
+		return (left == start) ? (end - start) : 
+                                 Math.max(result, longestSubstring(s, k, left, end));
+	}
+
     // 161. One Edit Distance - https://leetcode.com/problems/one-edit-distance/
 
     public boolean isOneEditDistance(String s, String t) {
