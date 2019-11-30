@@ -1,5 +1,30 @@
 class Solution {
 
+    // 138. Copy List with Random Pointer - https://leetcode.com/problems/copy-list-with-random-pointer/
+
+    private Map<Node, Node> nodes = new HashMap<>();
+    
+    public Node copyRandomList(Node head) {
+        if (head == null) {
+            return null;
+        }
+        
+        Node n = nodes.get(head);
+        
+        if (n == null) {
+            n = new Node();
+            nodes.put(head, n);
+            
+            n.val    = head.val;
+            n.next   = copyRandomList(head.next);
+            n.random = (head.random == head)      ? n : 
+                       (head.random == head.next) ? n.next : 
+                                                    copyRandomList(head.random);     
+        }
+        
+        return n;
+    }
+
     // 560. Subarray Sum Equals K - https://leetcode.com/problems/subarray-sum-equals-k/
 
     public int subarraySum(int[] nums, int k) {
