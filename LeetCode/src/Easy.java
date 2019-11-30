@@ -9,6 +9,39 @@ import java.util.Set;
 
 public class Easy {
     
+    // 257. Binary Tree Paths - https://leetcode.com/problems/binary-tree-paths/
+    
+    private void binaryTreePaths(TreeNode node, String nodePath, List<String> result) {
+        if (node == null) {
+            return;
+        }
+        
+        boolean isLeft  = (node.left  != null); 
+        boolean isRight = (node.right != null); 
+        
+        if (isLeft || isRight) {
+            if (isLeft) {
+                binaryTreePaths(node.left, nodePath + "->" + node.left.val, result);        
+            }
+
+            if (isRight) {
+                binaryTreePaths(node.right, nodePath + "->" + node.right.val, result);        
+            }
+        } else {
+            result.add(nodePath);
+        }        
+    }
+    
+    public List<String> binaryTreePaths(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+
+        List<String> result = new ArrayList<>();
+        binaryTreePaths(root, String.valueOf(root.val), result);
+        return result;
+    }
+    
     // 680. Valid Palindrome II - https://leetcode.com/problems/valid-palindrome-ii/
     
     private boolean validPalindrome(String s, int left, int right) {
