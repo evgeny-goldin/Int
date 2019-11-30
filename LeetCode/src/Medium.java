@@ -2,7 +2,32 @@ class Solution {
 
     // 199. Binary Tree Right Side View - https://leetcode.com/problems/binary-tree-right-side-view/
     
-    private int rightSideView(TreeNode node, List<Integer> values) {
+    public List<Integer> rightSideView2(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+        
+        List<Integer> result = new ArrayList<>();
+        Deque<TreeNode> q = new ArrayDeque<>();
+        
+        q.add(root);
+        
+        for (TreeNode lastNode = null, node = null; ! q.isEmpty(); ) {
+            int size = q.size();
+            for (int j = 0; j < size; j++) {
+                node = q.remove();
+                if (node.left  != null) { q.add(node.left);  }
+                if (node.right != null) { q.add(node.right); }
+                lastNode = node;
+            }
+            
+            result.add(lastNode.val);
+        }
+        
+        return result;
+    }
+    
+    private int rightSideView1(TreeNode node, List<Integer> values) {
         if (node == null) {
             return 0;
         }
