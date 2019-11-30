@@ -1,4 +1,33 @@
 class Solution {
+    
+    // 143. Reorder List - https://leetcode.com/problems/reorder-list/
+    
+    public void reorderList(ListNode head) {
+        if ((head == null) || (head.next == null) || (head.next.next == null)) {
+            return;
+        }
+        
+        Deque<ListNode> stack = new ArrayDeque<>();
+        
+        int size = 0;
+        
+        for (ListNode p = head; p != null; p = p.next) {
+            stack.addLast(p);
+            size++;
+        }
+        
+        ListNode p = head;
+        
+        for (int j = 0, steps = (size / 2); j < steps; j++) {
+            ListNode next = p.next;
+            p.next        = stack.removeLast();
+            p.next.next   = next;
+            p             = next;
+        }
+        
+        p.next = null;
+        return;
+    }
 
     // 138. Copy List with Random Pointer - https://leetcode.com/problems/copy-list-with-random-pointer/
 
