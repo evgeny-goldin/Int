@@ -1,4 +1,38 @@
 class Solution {
+
+    // 199. Binary Tree Right Side View - https://leetcode.com/problems/binary-tree-right-side-view/
+    
+    private int rightSideView(TreeNode node, List<Integer> values) {
+        if (node == null) {
+            return 0;
+        }
+        
+        values.add(node.val);
+        
+        int right = rightSideView(node.right, values);
+        int left  = 0;
+        
+        if (node.left != null) {
+            List<Integer> leftValues = new ArrayList<>();
+            left = rightSideView(node.left, leftValues);
+            for (int j = right; j < left; j++) {
+                values.add(leftValues.get(j));
+            }
+        }        
+        
+        return (1 + Math.max(left, right));
+    }
+    
+    public List<Integer> rightSideView(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }       
+        
+        List<Integer> values = new ArrayList<>();
+        rightSideView(root, values);
+        return values;
+    }
+    
     
     // 143. Reorder List - https://leetcode.com/problems/reorder-list/
     
