@@ -9,6 +9,33 @@ import java.util.Set;
 
 public class Easy {
     
+    // 680. Valid Palindrome II - https://leetcode.com/problems/valid-palindrome-ii/
+    
+    private boolean validPalindrome(String s, int left, int right) {
+        for (; left < right; left++, right--) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public boolean validPalindrome(String s) {
+        if (s == null) {
+            return false;
+        }
+     
+        for (int left = 0, right = s.length() - 1; left < right; left++, right--) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return validPalindrome(s, left, right - 1) || 
+                       validPalindrome(s, left + 1, right);
+            }
+        }
+        
+        return true;
+    }
+    
     // 157. Read N Characters Given Read4 - https://leetcode.com/problems/read-n-characters-given-read4/
     
     public int read(char[] buf, int n) {
