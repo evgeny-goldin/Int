@@ -12,14 +12,11 @@ class Solution {
         Node n = nodes.get(head);
         
         if (n == null) {
-            n = new Node();
+            n = new Node(head.val, null, null);
             nodes.put(head, n);
-            
-            n.val    = head.val;
+
             n.next   = copyRandomList(head.next);
-            n.random = (head.random == head)      ? n : 
-                       (head.random == head.next) ? n.next : 
-                                                    copyRandomList(head.random);     
+            n.random = copyRandomList(head.random);     
         }
         
         return n;
