@@ -1,5 +1,66 @@
 class Solution {
     
+    // 124. Binary Tree Maximum Path Sum - https://leetcode.com/problems/binary-tree-maximum-path-sum/
+    
+    int maxSum = Integer.MIN_VALUE;
+
+    public int maxSum(TreeNode node) {
+        if (node == null) { return 0; }
+
+        int leftGain  = Math.max(maxSum(node.left), 0);
+        int rightGain = Math.max(maxSum(node.right), 0);
+        maxSum        = Math.max(maxSum, node.val + leftGain + rightGain);
+
+        return node.val + Math.max(leftGain, rightGain);
+    }
+
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        maxSum(root);
+        return maxSum;
+    }
+    
+    private class C {
+        private int left;
+        private int middle;
+        private int right;
+        
+        private C (int left, int middle, int right) {
+            this.left   = left;
+            this.middle = middle;
+            this.right  = right;
+        }
+    }
+    
+    private C maxSum1(TreeNode node) {
+
+        if ((node.left == null) && (node.right == null)) {
+            return new C(node.val, node.val, node.val);
+        }
+        
+        C left  = (node.left  == null) ? null : maxSum1(node.left);
+        C right = (node.right == null) ? null : maxSum1(node.right);
+        
+        int l = (left == null)  ? node.val : Math.max(node.val, node.val + Math.max(left.left, left.right));
+        int r = (right == null) ? node.val : Math.max(node.val, node.val + Math.max(right.left, right.right));
+        int m = (left  == null) ? Math.max(right.middle, l + r - node.val) :
+                (right == null) ? Math.max(left.middle,  l + r - node.val) :
+                                  Math.max(Math.max(left.middle, right.middle),
+                                           l + r - node.val);
+        return new C(l, m, r);
+    }
+    
+    public int maxPathSum1(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }       
+        
+        C c = maxSum(root);
+        return Math.max(Math.max(c.left, c.middle), c.right);
+    }
+    
     // 340. Longest Substring with At Most K Distinct Characters - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
     
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
