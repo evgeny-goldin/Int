@@ -2,7 +2,24 @@ class Solution {
     
     // 253. Meeting Rooms II - https://leetcode.com/problems/meeting-rooms-ii/
     
-    public int minMeetingRooms(int[][] intervals) {
+    public int minMeetingRooms2(int[][] intervals) {
+        // Sort intervals by start time
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        
+        PriorityQueue<Integer> ends = new PriorityQueue<>();
+        
+        for (int[] interval : intervals) {
+            // ends.peek() returns the smallest "end"
+            if ((! ends.isEmpty()) && (interval[0] >= ends.peek())) {
+                ends.remove();
+            }
+            ends.add(interval[1]);
+        }
+        
+        return ends.size();
+    }
+    
+    public int minMeetingRooms1(int[][] intervals) {
         if ((intervals == null) || (intervals.length < 1)) {
             return 0;
         }
