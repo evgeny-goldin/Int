@@ -1,5 +1,47 @@
 class Solution {
     
+    // 78. Subsets - https://leetcode.com/problems/subsets/
+    
+    public List<List<Integer>> subsets(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return Collections.emptyList();
+        }    
+        
+        if (nums.length == 1) {
+            return Arrays.asList(Collections.emptyList(),
+                                 Arrays.asList(nums[0]));
+        }
+        
+        if (nums.length == 2) {
+            return Arrays.asList(
+                Collections.emptyList(),
+                Arrays.asList(nums[0]),
+                Arrays.asList(nums[1]),
+                Arrays.asList(nums[0], nums[1])
+            );
+        }
+        
+        List<List<Integer>> result = new ArrayList();
+        
+        result.add(Collections.emptyList());
+        result.add(Arrays.asList(nums[0]));
+        result.add(Arrays.asList(nums[1]));
+        result.add(Arrays.asList(nums[0], nums[1]));
+        
+        for (int j = 2; j < nums.length; j++) {
+            int n = nums[j];
+            int resultSize = result.size();
+            
+            for (int i = 0; i < resultSize; i++) {
+                List<Integer> copy = new ArrayList(result.get(i));
+                copy.add(n);
+                result.add(copy);
+            }
+        }
+        
+        return result;
+    }
+    
     // 46. Permutations - https://leetcode.com/problems/permutations/
     
     private List<Integer> inject(List<Integer> l, int n, int index) {
