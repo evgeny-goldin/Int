@@ -1,4 +1,60 @@
 class Solution {
+    
+    // 17. Letter Combinations of a Phone Number - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+    
+    private static Map<Integer, List<String>> mapping = new HashMap<>();
+    
+    static {
+        mapping.put(2, Arrays.asList("a", "b", "c"));
+        mapping.put(3, Arrays.asList("d", "e", "f"));
+        mapping.put(4, Arrays.asList("g", "h", "i"));
+        mapping.put(5, Arrays.asList("j", "k", "l"));
+        mapping.put(6, Arrays.asList("m", "n", "o"));
+        mapping.put(7, Arrays.asList("p", "q", "r", "s"));
+        mapping.put(8, Arrays.asList("t", "u", "v"));
+        mapping.put(9, Arrays.asList("w", "x", "y", "z"));        
+    }
+    
+    private List<String> letterCombinations(String s, int start) {
+        if (start >= s.length()) {
+            return Collections.emptyList();
+        }
+
+        int digit = s.charAt(start) - '0';
+            
+        if (! mapping.containsKey(digit)) {
+            return null;
+        }
+
+        List<String> rest = letterCombinations(s, start + 1);
+        
+        if (rest == null) {
+            return null;
+        }
+        
+        if (rest.isEmpty()) {
+            return mapping.get(digit);
+        }
+        
+        List<String> result = new ArrayList<>();
+
+        for (String ds : mapping.get(digit)) {
+            for (String rs : rest) {
+                result.add(ds + rs);
+            }            
+        }
+        
+        return result;
+    }  
+    
+    public List<String> letterCombinations(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return Collections.emptyList();
+        }       
+    
+        List<String> result = letterCombinations(s, 0); 
+        return (result == null) ? Collections.emptyList() : result;
+    }
 
     // 199. Binary Tree Right Side View - https://leetcode.com/problems/binary-tree-right-side-view/
     
