@@ -1,5 +1,65 @@
 class Solution {
     
+    // 56. Merge Intervals - https://leetcode.com/problems/merge-intervals/
+    
+    public int[][] merge(int[][] intervals) {
+        if ((intervals == null) || (intervals.length < 1)) {
+            return new int[0][];
+        }       
+        
+        if (intervals.length == 1) {
+            return intervals;
+        }
+        
+        int min = intervals[0][0];
+        int max = intervals[0][1];
+        
+        for (int j = 1; j < intervals.length; j++) {
+            min = Math.min(min, intervals[j][0]);
+            max = Math.max(max, intervals[j][1]);
+        }
+        
+        int[] a = new int[max - min + 1];
+
+        Set<Integer> emptyIntervals = new HashSet<>();
+        
+        for (int j = 0; j < intervals.length; j++) {
+            if (intervals[j][0] == intervals[j][1]) {
+                emptyIntervals.add(intervals[j][0]);
+            } else {
+                a[intervals[j][0] - min]++;
+                a[intervals[j][1] - min]--;                
+            }
+        }        
+        
+        List<int[]> result = new ArrayList<>();
+        
+        // Iterating with a sliding window over a, range is [left, j]
+        for (int j = 0, sum = 0, left = 0; j < a.length; j++) {
+            if (a[j] > 0) {
+                if (sum == 0) {
+                    left = j;
+                }
+                sum += a[j];
+            } else if (a[j] < 0) {
+                emptyIntervals.remove(j + min);
+                sum += a[j];
+                if (sum == 0) {
+                    result.add(new int[]{left + min, j + min});
+                }
+            }
+            if (sum > 0) {
+                emptyIntervals.remove(j + min);
+            }            
+        }
+        
+        for (int j : emptyIntervals) {
+            result.add(new int[]{j,j});
+        }
+        
+        return result.toArray(new int[result.size()][]);
+    }
+    
     // 253. Meeting Rooms II - https://leetcode.com/problems/meeting-rooms-ii/
     
     public int minMeetingRooms2(int[][] intervals) {
