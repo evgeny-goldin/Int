@@ -1,5 +1,55 @@
 class Solution {
     
+    // 46. Permutations - https://leetcode.com/problems/permutations/
+    
+    private List<Integer> inject(List<Integer> l, int n, int index) {
+        List<Integer> result = new ArrayList(l.size() + 1);
+        
+        for (int j = 0; j < l.size() + 1; j++) {
+            result.add((j == index) ? n :
+                       (j < index ) ? l.get(j) :
+                                      l.get(j - 1));
+        }
+        
+        return result;
+    }
+    
+    public List<List<Integer>> permute(int[] nums) {
+        if ((nums == null) || (nums.length < 1)) {
+            return Collections.emptyList();
+        }       
+        
+        if (nums.length == 1) {
+            return Arrays.asList(Arrays.asList(nums[0]));
+        }
+
+        if (nums.length == 2) {
+            return Arrays.asList(Arrays.asList(nums[0], nums[1]),
+                                 Arrays.asList(nums[1], nums[0]));
+        }
+        
+        List<List<Integer>> result = new ArrayList<>();
+
+        result.add(Arrays.asList(nums[0], nums[1]));
+        result.add(Arrays.asList(nums[1], nums[0]));
+ 
+        for (int j = 2; j < nums.length; j++) {
+            int n = nums[j];
+            
+            List<List<Integer>> tempResult = new ArrayList<>();
+            
+            for (List<Integer> r : result) {
+                for (int i = 0; i < r.size() + 1; i++) {
+                    tempResult.add(inject(r, n, i));
+                }
+            }
+            
+            result = tempResult;
+        }
+        
+        return result;
+    }
+    
     // 17. Letter Combinations of a Phone Number - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
     
     public List<String> letterCombinations(String s) {
