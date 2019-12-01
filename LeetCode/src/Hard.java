@@ -70,6 +70,30 @@ class Solution {
 
     /**
      * Visits node neighbours recursively, returns whether or not the loop is found
+     * See https://www.geeksforgeeks.org/topological-sorting/
+     */
+    private boolean isLoopFound(Node node) {
+
+        int n = i(node.c);
+
+        if (isLoop[n])  { return true;  }
+        if (visited[n]) { return false; }
+
+        visited[n] = isLoop[n] = true;
+
+        for (Node neighbour : node.neighbours){
+            if (isLoopFound(neighbour)) {
+                return true;   
+            }
+        }
+
+        isLoop[n] = false;
+        stack.addFirst(node.c);        
+        return false;
+    }
+
+    /**
+     * Visits node neighbours recursively, returns whether or not the loop is found
      */
     private boolean isLoopFound(Node node) {
 
