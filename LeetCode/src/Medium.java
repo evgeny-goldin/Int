@@ -2,7 +2,41 @@ class Solution {
     
     // 56. Merge Intervals - https://leetcode.com/problems/merge-intervals/
     
-    public int[][] merge(int[][] intervals) {
+    public int[][] merge2(int[][] intervals) {
+
+        if ((intervals == null) || (intervals.length < 1)) {
+            return new int[0][];
+        }       
+        
+        if (intervals.length == 1) {
+            return intervals;
+        }        
+        
+        Arrays.sort(intervals, (a,b) -> (a[0] - b[0]));
+
+        List<int[]> result = new ArrayList<>();
+        
+        for (int[] interval : intervals) {
+            if (result.isEmpty()) {
+                result.add(interval);
+                continue;
+            }
+
+            int[] prev = result.get(result.size() - 1);
+            
+            if (interval[0] > prev[1]) {
+                // No overlap between prev and interval 
+                result.add(interval);
+            } else {
+                // Overlap between prev and interval - extending prev
+                prev[1] = Math.max(prev[1], interval[1]);                
+            }            
+        }
+
+        return result.toArray(new int[result.size()][]);
+    }
+    
+    public int[][] merge1(int[][] intervals) {
         if ((intervals == null) || (intervals.length < 1)) {
             return new int[0][];
         }       
