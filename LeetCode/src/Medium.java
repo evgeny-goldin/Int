@@ -1,5 +1,49 @@
 class Solution {
     
+    // 253. Meeting Rooms II - https://leetcode.com/problems/meeting-rooms-ii/
+    
+    public int minMeetingRooms(int[][] intervals) {
+        if ((intervals == null) || (intervals.length < 1)) {
+            return 0;
+        }
+        
+        if (intervals.length == 1) {
+            return 1;
+        }
+        
+        int min = intervals[0][0];
+        int max = intervals[0][1];
+        
+        for (int j = 1; j < intervals.length; j++) {
+            min = Math.min(min, intervals[j][0]);
+            max = Math.max(max, intervals[j][1]);            
+        }
+        
+        int[] a = new int[max - min + 1];
+
+        for (int j = 0; j < intervals.length; j++) {
+            a[intervals[j][0] - min]++;
+            a[intervals[j][1] - min]--;
+        }
+        
+        int result = 0;
+        
+        for (int j = 0, available = 0; j < a.length; j++) {
+            if (a[j] == 0) {
+                continue;
+            }
+            
+            if (a[j] > available) {
+                result   += (a[j] - available);
+                available = 0;                                
+            } else {
+                available -= a[j];                
+            }
+        }
+        
+        return result;
+    }
+    
     // 78. Subsets - https://leetcode.com/problems/subsets/
     
     public List<List<Integer>> subsets(int[] nums) {
