@@ -2,6 +2,53 @@ class Solution {
     
     // 17. Letter Combinations of a Phone Number - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
     
+    public List<String> letterCombinations(String s) {
+
+        if ((s == null) || (s.length() < 1)) {
+            return Collections.emptyList();
+        }
+
+        char[][] mapping = new char[][]{null, null,
+                                        {'a','b','c'},
+                                        {'d','e','f'},
+                                        {'g','h','i'},
+                                        {'j','k','l'},
+                                        {'m','n','o'},
+                                        {'p','q','r','s'},
+                                        {'t','u','v'},
+                                        {'w','x','y','z'}};
+
+        List<String> result = new ArrayList<>();
+
+        for (int j = 0; j < s.length(); j++) {
+
+            int ch = s.charAt(j) - '0';
+
+            if ((ch < 2) || (ch > 9)) {
+                return Collections.emptyList();
+            }
+
+            char[] letters = mapping[ch];
+
+            if (result.isEmpty()) {
+               for (char l : letters) {
+                   result.add(String.valueOf(l));
+               }
+            } else {
+                List<String> tempResult = new ArrayList<>();
+                for (String r : result) {
+                    for (char l : letters) {
+                        tempResult.add(r + l);
+                    }                    
+                }
+                result = tempResult;
+            }
+        }
+
+        return result;
+
+    }
+    
     private static Map<Integer, List<String>> mapping = new HashMap<>();
     
     static {
