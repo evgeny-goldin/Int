@@ -537,7 +537,7 @@ class Solution {
         int size = 0;
         
         for (ListNode p = head; p != null; p = p.next) {
-            stack.addLast(p);
+            stack.push(p);
             size++;
         }
         
@@ -545,7 +545,7 @@ class Solution {
         
         for (int j = 0, steps = (size / 2); j < steps; j++) {
             ListNode next = p.next;
-            p.next        = stack.removeLast();
+            p.next        = stack.pop();
             p.next.next   = next;
             p             = next;
         }
