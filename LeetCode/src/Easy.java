@@ -9,6 +9,20 @@ import java.util.Set;
 
 public class Easy {
     
+    // 344. Reverse String - https://leetcode.com/problems/reverse-string/
+    
+    public void reverseString(char[] s) {
+        if ((s == null) || (s.length < 2)) {
+            return;
+        }
+        
+        for (int j = 0; j < s.length / 2; j++) {
+            char temp = s[j];
+            s[j] = s[s.length - 1 - j];
+            s[s.length - 1 - j] = temp;
+        }           
+    }    
+    
     // 242. Valid Anagram - https://leetcode.com/problems/valid-anagram/
     
     private int[] primes = new int[]{2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101};
