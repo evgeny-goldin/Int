@@ -1206,6 +1206,7 @@ public class Easy {
 
         // k < nums.length
 
+        // How many chars are left to rotate
         int n = nums.length - start - k;
 
         if (k < n) {
