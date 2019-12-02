@@ -559,23 +559,23 @@ public class Easy {
 
     // 121. Best Time to Buy and Sell Stock (Easy) - https://leetcode.com/problems/best-time-to-buy-and-sell-stock/submissions/
     
-    public int maxProfit1(int[] prices) {
+    public int maxProfit(int[] prices) {
         if ((prices == null) || (prices.length < 2)) {
             return 0;
         }       
         
-        int min = prices[0], result = 0;
+        int min = prices[0], profit = 0;
         
         for (int j = 1; j < prices.length; j++) {
             int price = prices[j];
             if (price < min) {
                 min = price;
-            } else if ((price - min) > result) {
-                result = price - min;
-            }   
+            } else {
+                profit = Math.max(profit, price - min);            
+            }
         }
         
-        return result;
+        return profit;
     }
     
     // 70. Climbing Stairs (Easy)
