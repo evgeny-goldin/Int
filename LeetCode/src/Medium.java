@@ -1,5 +1,42 @@
 class Solution {
     
+    // 114. Flatten Binary Tree to Linked List - https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+    
+    /**
+     * Flattens the tree, returning the chain's tail
+     */
+    private TreeNode helper (TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        
+        if ((root.left == null) && (root.right == null)) {
+            return root;                        
+        }
+
+        TreeNode leftChild  = root.left;
+        TreeNode rightChild = root.right;
+        TreeNode left       = helper(leftChild);
+        TreeNode right      = helper(rightChild);
+
+        root.left = null;
+        
+        if (leftChild != null) {
+            root.right = leftChild;
+            left.right = rightChild;
+        }
+
+        return (right != null ? right : left);
+    }
+    
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return;
+        }       
+        
+        helper(root);
+    }
+    
     // 102. Binary Tree Level Order Traversal - https://leetcode.com/problems/binary-tree-level-order-traversal/
     
     private class C {
