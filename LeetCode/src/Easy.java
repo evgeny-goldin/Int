@@ -1074,14 +1074,9 @@ public class Easy {
         return "";
     }
 
-    // 28. Implement strStr() (Easy)
+    // 28. Implement strStr() (Easy) - https://leetcode.com/problems/implement-strstr/
 
-    private boolean contains(char[] haystackChars, char[] needleChars, int startIndex) {
-        
-        if ((startIndex + needleChars.length) > haystackChars.length) {
-            return false;
-        }
-        
+    private boolean contains(char[] haystackChars, char[] needleChars, int startIndex) {        
         // Assuming first letter is already checked
         for (int j = 1; j < needleChars.length; j++) {
             if (needleChars[j] != haystackChars[startIndex + j]) {
