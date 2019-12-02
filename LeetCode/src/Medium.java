@@ -1,5 +1,39 @@
 class Solution {
     
+    // 91. Decode Ways - https://leetcode.com/problems/decode-ways/
+    
+    public int numDecodings(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return 0;
+        }
+        
+        int[] d  = new int[s.length()];
+        int[] dp = new int[s.length() + 1];
+        
+        for (int j = 0; j < s.length(); j++) {
+            d[j] = s.charAt(j) - '0';
+        }
+        
+        dp[0] = 1;
+        
+        for (int j = 1; j <= s.length(); j++) {
+            int oneDigit = d[j-1];
+            
+            if (oneDigit > 0) {
+                dp[j] += dp[j-1];
+            }
+            
+            if (j > 1) {
+                int twoDigit = ((d[j-2] * 10) + d[j-1]);
+                if ((twoDigit > 9) && (twoDigit < 27)) {
+                    dp[j] += dp[j-2];
+                }
+            }
+        }
+        
+        return dp[s.length()];
+    }    
+    
     // 56. Merge Intervals - https://leetcode.com/problems/merge-intervals/
     
     public int[][] merge2(int[][] intervals) {
