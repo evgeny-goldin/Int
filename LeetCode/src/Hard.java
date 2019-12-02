@@ -38,7 +38,7 @@ class Solution {
         } 
  
         isLoop[n] = false; 
-        stack.addFirst(node.c);         
+        stack.push(node.c);         
         return false; 
     }     
  
@@ -87,7 +87,7 @@ class Solution {
         // Emptying the Stack into result 
         StringBuilder b = new StringBuilder(); 
         while (! stack.isEmpty()) { 
-            b.append(stack.remove()); 
+            b.append(stack.pop()); 
         } 
         return b.toString(); 
     } 
