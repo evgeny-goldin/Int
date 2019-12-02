@@ -9,6 +9,56 @@ import java.util.Set;
 
 public class Easy {
     
+    // 242. Valid Anagram - https://leetcode.com/problems/valid-anagram/
+    
+    private int[] primes = new int[]{2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101};
+    
+    // ** Overflows for long Strings (larger than ~ 12 chars) ! **
+    private long signature(String s) {
+        long signature = 1L;
+        for (int j = 0; j < s.length(); j++) {
+            signature *= primes[s.charAt(j) - 'a'];
+        }
+        return signature;
+    }    
+
+    public boolean isAnagram2(String s, String t) {
+        if ((s == null) || (t == null)) {
+            return false;
+        }
+        
+        return signature(s) == signature(t);
+    }
+
+    public boolean isAnagram1(String s, String t) {
+        if ((s == null) || (t == null)) {
+            return false;
+        }
+        if (s.trim().isEmpty() && t.trim().isEmpty()) {
+            return true;
+        }
+        if (s.length() != t.length()) {
+            return false;
+        }
+        
+        int[] counters = new int[26];
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        
+        for (int j = 0; j < s.length(); j++) {
+            counters[sChars[j] - 'a']++;
+            counters[tChars[j] - 'a']--;
+        }
+        
+        for (int j = 0; j < counters.length; j++) {
+            if (counters[j] != 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     // 217. Contains Duplicate - https://leetcode.com/problems/contains-duplicate/
     
     public boolean containsDuplicate2(int[] nums) {
