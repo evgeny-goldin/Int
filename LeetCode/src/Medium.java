@@ -1,5 +1,50 @@
 class Solution {
     
+    // 102. Binary Tree Level Order Traversal - https://leetcode.com/problems/binary-tree-level-order-traversal/
+    
+    private class C {
+        private TreeNode node;
+        private int level;
+        
+        private C(TreeNode node, int level) {
+            this.node = node;
+            this.level = level;
+        }
+    }
+    
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+        
+        Queue<C> queue = new LinkedList<>();
+        List<Integer> currentLevel = null;
+        List<List<Integer>> result = new ArrayList();
+
+        queue.add(new C(root, 1));
+        
+        while (! queue.isEmpty()) {
+            C c = queue.remove();
+            
+            if (result.size() < c.level) {
+                // Starting a new level in the result
+                currentLevel = new ArrayList();
+                result.add(currentLevel);
+            } 
+            
+            currentLevel.add(c.node.val);
+            
+            if (c.node.left != null) {
+                queue.add(new C(c.node.left, c.level + 1));
+            }
+            if (c.node.right != null) {
+                queue.add(new C(c.node.right, c.level + 1));
+            }
+        }
+        
+        return result; 
+    }
+    
     // 91. Decode Ways - https://leetcode.com/problems/decode-ways/
     
     public int numDecodings(String s) {
