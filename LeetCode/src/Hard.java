@@ -2,118 +2,95 @@ class Solution {
     
     // 269. Alien Dictionary - https://leetcode.com/problems/alien-dictionary/
 
-    private final         int ABC_SIZE = 26;
-    private Deque<Character> stack     = new ArrayDeque<>();
-    private boolean[]        visited   = new boolean[ABC_SIZE];
-    private boolean[]        isLoop    = new boolean[ABC_SIZE];
-
-    private class Node {
-        private char c;
-        private List<Node> neighbours = new ArrayList<>();
-
-        Node (char c) {
-            this.c = c;
-        }
-    }
-
-    private int i(char ch) { return (ch - 'a'); }
-
-    public String alienOrder(String[] words) {
-
-        if ((words == null) || (words.length < 1)) {
-            return "";
-        }
-
-        Node[] nodes    = new Node[ABC_SIZE];
-        String prevWord = null;
-
-        for (String word : words){
-
-            // Adding each new letter to the nodes array
-            for (int j = 0; j < word.length(); j++){
-                char letter = word.charAt(j); 
-                if (nodes[i(letter)] == null) {
-                    nodes[i(letter)] = new Node(letter);
-                }
-            }
-
-            // Checking the previous word (if exists) for the first different letter and making it the parent of the current word letter 
-            if (prevWord != null) {
-                for (int j = 0; (j < word.length()) && (j < prevWord.length()); j++){
-                    char prevLetter = prevWord.charAt(j);
-                    char letter     = word.charAt(j); 
-                    if (letter != prevLetter) {
-                        nodes[i(prevLetter)].neighbours.add(nodes[i(letter)]);
-                        break;
-                    }
-                }
-            }
-
-            prevWord = word;
-        }
-
-        // Iterating though all letters, checking for loops, and adding letters to the stack
-        for (int j = 0; j < ABC_SIZE; j++){
-            char letter = (char)('a' + j);
-            if ((! visited[j]) && (nodes[i(letter)] != null) && isLoopFound(nodes[i(letter)])){
-                return "";
-            }
-        }
-
-        // Emptying the Stack into result
-        StringBuilder b = new StringBuilder();
-        while (! stack.isEmpty()) {
-            b.append(stack.remove());
-        }
-        return b.toString();
-    }
-
-    /**
-     * Visits node neighbours recursively, returns whether or not the loop is found
-     * See https://www.geeksforgeeks.org/topological-sorting/
-     */
-    private boolean isLoopFound(Node node) {
-
-        int n = i(node.c);
-
-        if (isLoop[n])  { return true;  }
-        if (visited[n]) { return false; }
-
-        visited[n] = isLoop[n] = true;
-
-        for (Node neighbour : node.neighbours){
-            if (isLoopFound(neighbour)) {
-                return true;   
-            }
-        }
-
-        isLoop[n] = false;
-        stack.addFirst(node.c);        
-        return false;
-    }
-
-    /**
-     * Visits node neighbours recursively, returns whether or not the loop is found
-     */
-    private boolean isLoopFound(Node node) {
-
-        int n = i(node.c);
-
-        if (isLoop[n])  { return true;  }
-        if (visited[n]) { return false; }
-
-        visited[n] = isLoop[n] = true;
-
-        for (Node neighbour : node.neighbours){
-            if (isLoopFound(neighbour)) {
-                return true;   
-            }
-        }
-
-        isLoop[n] = false;
-        stack.addFirst(node.c);        
-        return false;
-    }
+    private final         int ABC_SIZE = 26; 
+    private Deque<Character> stack     = new ArrayDeque<>(); 
+    private boolean[]        visited   = new boolean[ABC_SIZE]; 
+    private boolean[]        isLoop    = new boolean[ABC_SIZE]; 
+ 
+    private class Node { 
+        private char c; 
+        private List<Node> neighbours = new ArrayList<>(); 
+ 
+        Node (char c) { 
+            this.c = c; 
+        } 
+    } 
+ 
+    private int i(char ch) { return (ch - 'a'); } 
+    
+    /** 
+     * Visits node neighbours recursively, returns whether or not the loop is found 
+     * See https://www.geeksforgeeks.org/topological-sorting/ 
+     */ 
+    private boolean isLoopFound(Node node) { 
+ 
+        int n = i(node.c); 
+ 
+        if (isLoop[n])  { return true;  } 
+        if (visited[n]) { return false; } 
+ 
+        visited[n] = isLoop[n] = true; 
+ 
+        for (Node neighbour : node.neighbours){ 
+            if (isLoopFound(neighbour)) { 
+                return true;    
+            } 
+        } 
+ 
+        isLoop[n] = false; 
+        stack.addFirst(node.c);         
+        return false; 
+    }     
+ 
+    public String alienOrder(String[] words) { 
+ 
+        if ((words == null) || (words.length < 1)) { 
+            return ""; 
+        } 
+ 
+        Node[] nodes    = new Node[ABC_SIZE]; 
+        String prevWord = null; 
+ 
+        for (String word : words){ 
+ 
+            // Adding each new letter to the nodes array 
+            for (int j = 0; j < word.length(); j++){ 
+                char letter = word.charAt(j);  
+                if (nodes[i(letter)] == null) { 
+                    nodes[i(letter)] = new Node(letter); 
+                } 
+            } 
+ 
+            // Checking the previous word (if exists) for the first different letter and making it the parent of the current word letter  
+            if (prevWord != null) { 
+                for (int j = 0; (j < word.length()) && (j < prevWord.length()); j++){ 
+                    char prevLetter = prevWord.charAt(j); 
+                    char letter     = word.charAt(j);  
+                    if (letter != prevLetter) { 
+                        nodes[i(prevLetter)].neighbours.add(nodes[i(letter)]); 
+                        break; 
+                    } 
+                } 
+            } 
+ 
+            prevWord = word; 
+        } 
+ 
+        // Iterating though all letters, checking for loops, and adding letters to the stack 
+        for (int j = 0; j < ABC_SIZE; j++){ 
+            char letter = (char)('a' + j); 
+            if ((! visited[j]) && (nodes[i(letter)] != null) && isLoopFound(nodes[i(letter)])){ 
+                return ""; 
+            } 
+        } 
+ 
+        // Emptying the Stack into result 
+        StringBuilder b = new StringBuilder(); 
+        while (! stack.isEmpty()) { 
+            b.append(stack.remove()); 
+        } 
+        return b.toString(); 
+    } 
     
     // 124. Binary Tree Maximum Path Sum - https://leetcode.com/problems/binary-tree-maximum-path-sum/
     
