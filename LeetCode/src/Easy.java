@@ -9,6 +9,41 @@ import java.util.Set;
 
 public class Easy {
     
+    // 136. Single Number - https://leetcode.com/problems/single-number/
+    
+    public int singleNumber2(int[] nums) {
+        if ((nums == null) || (nums.length < 1) || ((nums.length & 1) == 0)) {
+            return -1;
+        }
+        
+        int result = 0;
+        
+        for (int n: nums) {
+            result ^= n;
+        }
+        
+        return result;
+    }
+    
+    public int singleNumber1(int[] nums) {
+        if ((nums == null) || (nums.length < 1) || ((nums.length & 1) == 0)) {
+            return -1;
+        }
+        
+        int sumAll = 0;
+        int sumUnique = 0;
+        Set<Integer> set = new HashSet<>();
+        
+        for (int n: nums) {
+            sumAll += n;
+            if (set.add(n)) {
+                sumUnique += n;
+            }
+        }
+        
+        return ((2 * sumUnique) - sumAll);
+    }
+    
     // 257. Binary Tree Paths - https://leetcode.com/problems/binary-tree-paths/
     
     private void binaryTreePaths(TreeNode node, String nodePath, List<String> result) {
