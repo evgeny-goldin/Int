@@ -514,7 +514,7 @@ class Solution {
         return (1 + Math.max(left, right));
     }
     
-    public List<Integer> rightSideView(TreeNode root) {
+    public List<Integer> rightSideView1(TreeNode root) {
         if (root == null) {
             return Collections.emptyList();
         }       
@@ -523,7 +523,6 @@ class Solution {
         rightSideView(root, values);
         return values;
     }
-    
     
     // 143. Reorder List - https://leetcode.com/problems/reorder-list/
     
