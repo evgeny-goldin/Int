@@ -1,4 +1,44 @@
 class Solution {
+
+    // 34. Find First and Last Position of Element in Sorted Array - https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+    
+    private int[] searchRange(int[] nums, int target, int left, int right) {
+        
+        if ((nums[left] > target) || (nums[right] < target)) {
+            return new int[]{-1, -1};
+        }
+        
+        if ((nums[left] == target) && (nums[right] == target)) {
+            return new int[]{left, right};
+        }
+        
+        
+        int middle = left + ((right - left) / 2);
+        
+        if (nums[middle] < target) {
+            return searchRange(nums, target, middle + 1, right);
+        } 
+        
+        if (nums[middle] > target) {
+            return searchRange(nums, target, left, middle - 1);
+        }
+        
+        int start = middle, end = middle;
+        
+        while ((start >= left) && (nums[start] == target)){ start--; }
+        while ((end  <= right) && (nums[end]   == target)){ end++;   }
+        
+        return new int[]{start + 1, end - 1};
+    }
+    
+    public int[] searchRange(int[] nums, int target) {
+        if ((nums == null) || (nums.length < 1)) {
+            return new int[]{-1, -1};
+        }       
+        
+        return searchRange(nums, target, 0, nums.length - 1);
+    }
+    
     
     // 114. Flatten Binary Tree to Linked List - https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
     
