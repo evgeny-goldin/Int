@@ -1,5 +1,53 @@
 class Solution {
 
+    // 332. Reconstruct Itinerary - https://leetcode.com/problems/reconstruct-itinerary/
+
+    private boolean backtrack(String current, Map<String, List<String>> map, List<String> result, int n) {
+        if (result.size() == n) { return true; }
+        
+        List<String> neibs = map.get(current);
+        if ((neibs == null) || neibs.isEmpty()) { return false; }
+        
+        for (int j = 0; j < neibs.size(); j++) {
+            String neib = neibs.remove(j);
+            result.add(neib);
+            if (backtrack(neib, map, result, n)) { return true; }
+            result.remove(result.size() - 1);
+            neibs.add(j, neib);
+        }
+        
+        return false;
+    }
+    
+    public List<String> findItinerary(List<List<String>> tickets) {
+        
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (List<String> fromTo: tickets) {
+            String from = fromTo.get(0);
+            String to = fromTo.get(1);
+            List<String> tos = map.get(from);
+            if (tos == null) {
+                tos = new ArrayList<>();
+                map.put(from, tos);
+            }
+            tos.add(to);
+        }
+        
+        if (! map.containsKey("JFK")) {
+            return Collections.singletonList("JFK");
+        }
+
+        for (final String to: map.keySet()) {
+            Collections.sort(map.get(to));
+        }
+        
+        List<String> result = new ArrayList();
+        result.add("JFK");
+        backtrack("JFK", map, result, tickets.size() + 1);
+        return result;
+    }
+
     // 34. Find First and Last Position of Element in Sorted Array - https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     
     private int[] searchRange(int[] nums, int target, int left, int right) {
