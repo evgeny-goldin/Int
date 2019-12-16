@@ -1,5 +1,32 @@
 class Solution {
     
+    // 42. Trapping Rain Water - https://leetcode.com/problems/trapping-rain-water/
+    
+    public int trap(int[] a) {
+        if ((a == null) || (a.length < 3)) { 
+            return 0;
+        }
+          
+        int result = 0;
+        
+        for (int left = 0, right = a.length - 1, tallestLeftBar = -1, tallestRightBar = -1;
+            left < right;) {
+            
+            tallestLeftBar  = Math.max(tallestLeftBar, a[left]); 
+            tallestRightBar = Math.max(tallestRightBar, a[right]); 
+            
+            if (tallestLeftBar < tallestRightBar) {
+                result += tallestLeftBar - a[left]; 
+                left++;
+            } else {
+                result += tallestRightBar - a[right]; 
+                right--;
+            }            
+        }
+        
+        return result;
+    }
+    
     // 269. Alien Dictionary - https://leetcode.com/problems/alien-dictionary/
 
     private final         int ABC_SIZE = 26; 
