@@ -1,5 +1,35 @@
 class Solution {
 
+    // 279. Perfect Squares - https://leetcode.com/problems/perfect-squares/
+    
+    public int numSquares(int n) {
+        if (n < 3) {
+            return n;
+        }
+     
+        int squares[] = new int[(int) Math.sqrt(n) + 1];
+        for (int i = squares.length - 1; i > 0; i--) {
+            squares[i] = (i * i);
+            if (n == squares[i]) {
+                return 1;
+            }
+        }
+
+        int dp[] = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+
+        for (int i = 3; i <= n; i++) {
+            for (int j = 1; (j < squares.length) && (squares[j] <= i); j++) {
+                dp[i] = Math.min(dp[i], 1 + dp[i - squares[j]]);
+            }
+        }
+      
+        return dp[n];
+    }
+
     // 139. Word Break - https://leetcode.com/problems/word-break/
 
     private Set<String> mismatchesCache = new HashSet<>();
