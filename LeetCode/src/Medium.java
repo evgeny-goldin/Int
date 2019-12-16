@@ -1,5 +1,38 @@
 class Solution {
 
+    // 139. Word Break - https://leetcode.com/problems/word-break/
+
+    private Set<String> mismatchesCache = new HashSet<>();
+    
+    private boolean wordBreak(String s, ArrayList<String> words) {
+        
+        if (s.length() < 1) {
+            return true;
+        }
+        
+        if (mismatchesCache.contains(s)) {
+            return false;
+        }
+        
+        for (int j = 0; j < words.size(); j++) {
+            String word = words.get(j);
+            if (s.startsWith(word) && wordBreak(s.substring(word.length()), words)) {
+                return true;
+            }
+        }
+        
+        mismatchesCache.add(s);
+        return false;
+    }
+    
+    public boolean wordBreak(String s, List<String> words) {
+        if ((s == null) || (s.length() < 1) || (words == null) || (words.size() < 1)) {
+            return false;
+        }       
+        
+        return wordBreak(s, new ArrayList(words));
+    }
+
     // 655. Print Binary Tree - https://leetcode.com/problems/print-binary-tree/
 
     public List<List<String>> printTree(TreeNode root) {
