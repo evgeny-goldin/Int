@@ -1,5 +1,32 @@
 class Solution {
 
+    // 652. Find Duplicate Subtrees - https://leetcode.com/problems/find-duplicate-subtrees/
+
+    int counter = 1;
+    Map<String, Integer> trees = new HashMap();
+    Map<Integer, Integer> counts = new HashMap();
+    List<TreeNode> result = new ArrayList();
+
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        lookup(root);
+        return result;
+    }
+
+    public int lookup(TreeNode node) {
+        if (node == null) { return 0; }
+        
+        String serial = node.val + ":" + lookup(node.left) + ":" + lookup(node.right);
+        int uid = trees.computeIfAbsent(serial, (s) -> counter++);
+        
+        counts.put(uid, counts.getOrDefault(uid, 0) + 1);
+        
+        if (counts.get(uid) == 2) {
+            result.add(node);            
+        }
+        
+        return uid;
+    }
+
     // 279. Perfect Squares - https://leetcode.com/problems/perfect-squares/
     
     public int numSquares(int n) {
