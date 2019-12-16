@@ -1,5 +1,45 @@
 class Solution {
 
+    // 655. Print Binary Tree - https://leetcode.com/problems/print-binary-tree/
+
+    public List<List<String>> printTree(TreeNode root) {
+        int height = getHeight(root);
+        
+        String[][] result = new String[height][(1 << height) - 1];
+        
+        for(String[] a : result){
+            Arrays.fill(a, "");            
+        }
+        
+        fill(result, root, 0, 0, result[0].length);
+        
+        List<List<String>> answer = new ArrayList<>();
+        for(String[] a : result) {
+            answer.add(Arrays.asList(a));            
+        }        
+        return answer;
+    }
+    
+    public void fill(String[][] result, TreeNode root, int level, int l, int r) {
+        if (root == null){
+            return;            
+        }
+        
+        int middle = l + ((r - l) / 2);
+        result[level][middle] = String.valueOf(root.val);
+        fill(result, root.left,  level + 1, l, middle);
+        fill(result, root.right, level + 1, middle + 1, r);
+    }
+    
+    public int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+            
+        return (1 + Math.max(getHeight(root.left), 
+                             getHeight(root.right)));
+    }
+
     // 332. Reconstruct Itinerary - https://leetcode.com/problems/reconstruct-itinerary/
 
     private boolean backtrack(String current, Map<String, List<String>> map, List<String> result, int n) {
