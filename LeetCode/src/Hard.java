@@ -1,5 +1,98 @@
 class Solution {
     
+    // 297. Serialize and Deserialize Binary Tree - https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+    
+    private final TreeNode Null          = new TreeNode(-1);
+    private final int Bump               = 1000; // A number we bump up every node value by to escape negative values 
+    private final int NullNodeNumber     = 1010; // Max node value (that we never meet), used as a Null character 
+    private final Character NullNodeChar = Character.toChars(NullNodeNumber + Bump)[0];
+    
+    // Calculates the height of the tree: single node is 1, a node with children is 2 and so on.
+    private int height(TreeNode node) {
+        return ((node == null) ? 0 : 1 + Math.max(height(node.left), height(node.right)));
+    }
+    
+    // Encodes a tree to a single String by encoding each node's value to it's Unicode Character as if it was a codepoint. 
+    // Since the max node value is 1000 - we only need one Character (see Character.toChars())
+    public String serialize(TreeNode root) {
+        if (root == null) {
+            return "";
+        }
+        
+        int height = height(root);
+        StringBuilder b = new StringBuilder();
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.add(root);
+        
+        int level = 1;
+
+        while (! q.isEmpty()) {
+            for (int queueSize = q.size(); queueSize > 0; queueSize--) {
+                TreeNode node = q.remove();
+                if (node == Null) {
+                    b.append(NullNodeChar);
+                } else {
+                    b.append(Character.toChars(node.val + Bump)[0]);
+                    // When last level (level = height) - we don't look at children, this avoids trailing nulls from last level leaves  
+                    if (level < height) {
+                      q.add(node.left  == null ? Null : node.left);
+                      q.add(node.right == null ? Null : node.right);
+                    }
+                }
+            }
+            
+            level++;
+        }
+        
+        return b.toString(); // ϩߚϪߚϫߚϬ..
+    }
+    
+    // Decodes your encoded data to tree by taking each character in a String and decoding it back to its codepoint (which is a node.val)
+    // Each node is added to and removed from the queue (BFS), while pulling for new chars from the data.
+    public TreeNode deserialize(String data) {
+        
+        if ((data == null) || (data.length() < 1)) {
+            return null;
+        }
+        
+        int j = 0; // Pointer to data chars
+        int n = data.charAt(j++) - Bump;
+        
+        if (n == NullNodeNumber) {
+            return null;
+        }
+        
+        // Since we know how many characters we expect - we can build our own queue using an array and use two pointers to "add" and "remove" from it 
+        int add          = 0;
+        int remove       = 0;
+        int dataLength   = data.length();
+        TreeNode[] queue = new TreeNode[dataLength];
+        queue[add++]     = new TreeNode(n);
+                
+        // While queue is not empty
+        while (add > remove) { 
+            // queue.remove()
+            TreeNode parent = queue[remove++];
+            
+            int left  = ((j < dataLength) ? data.charAt(j++) - Bump : NullNodeNumber);
+            int right = ((j < dataLength) ? data.charAt(j++) - Bump : NullNodeNumber);
+            
+            if (left != NullNodeNumber) {
+                parent.left  = new TreeNode(left);
+                // queue.add()
+                queue[add++] = parent.left;
+            }
+            
+            if (right != NullNodeNumber) {
+                parent.right = new TreeNode(right);
+                // queue.add()
+                queue[add++] = parent.right;
+            }
+        }
+        
+        return queue[0];
+    }    
+    
     // 42. Trapping Rain Water - https://leetcode.com/problems/trapping-rain-water/
     
     public int trap(int[] a) {
