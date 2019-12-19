@@ -3,32 +3,23 @@ class Solution {
     // 23. Merge k Sorted Lists - https://leetcode.com/problems/merge-k-sorted-lists/
     
     public ListNode merge(ListNode l1, ListNode l2) {
-        ListNode h = new ListNode(0);
-        ListNode result = h;
-
-        while ((l1 != null) && (l2 != null)) {
-            if (l1.val < l2.val) {
-                h.next = l1;
-                h      = h.next;
-                l1     = l1.next;
-            } else {
-                h.next = l2;
-                h      = h.next;
-                l2     = l2.next;
-            }
+        if (l1 == null) {
+            return l2;
         }
-
-        if(l1 == null) {
-            h.next = l2;
+        
+        if (l2 == null) {
+            return l1;
         }
-
-        if(l2 == null) {
-            h.next = l1;
-        } 
-
-        return result.next;
+        
+        if (l1.val < l2.val) {
+            l1.next = merge(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = merge(l1, l2.next);
+            return l2;
+        }
     }
-    
+        
     public ListNode mergeKLists(ListNode[] lists) {
         if ((lists == null) || (lists.length < 1)) {
             return null;
