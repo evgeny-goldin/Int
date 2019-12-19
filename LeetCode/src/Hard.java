@@ -2,6 +2,60 @@ class Solution {
     
     // 297. Serialize and Deserialize Binary Tree - https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
     
+    // -- DFS -- 
+    
+    private final int Bump               = 1000; // A number we bump up every node value by to escape negative values 
+    private final int NullNodeNumber     = 1010; // Max node value (that we never meet), used as a Null character 
+    private final Character NullNodeChar = Character.toChars(NullNodeNumber + Bump)[0];    
+    
+    private void serialize(TreeNode node, StringBuilder b) {
+        if (node == null) {
+            b.append(NullNodeChar);
+            return;
+        }        
+        
+        b.append(Character.toChars(node.val + Bump)[0]);
+        serialize(node.left,  b);
+        serialize(node.right, b);
+    }
+    
+    // Encodes a tree to a single String by encoding each node's value to it's Unicode Character as if it was a codepoint. 
+    // Since the max node value is 1000 - we only need one Character (see Character.toChars())    
+    public String serialize(TreeNode root) {
+        if (root == null) {
+            return "";
+        }
+        
+        StringBuilder b = new StringBuilder();
+        serialize(root, b);
+        return b.toString(); // ϩϪϫϭϯߚߚϰϴ..
+    }
+    
+    private TreeNode deserialize(String data, int[] j) {
+        int n = ((j[0] < data.length()) ? data.charAt(j[0]++) - Bump : NullNodeNumber);
+        
+        if (n == NullNodeNumber) {
+            return null;
+        }
+        
+        TreeNode node = new TreeNode(n);
+        node.left     = deserialize(data, j);
+        node.right    = deserialize(data, j);
+        return node;
+    }
+    
+    // Decodes your encoded data to tree by taking each character in a String and decoding it back to its codepoint (a node.val)
+    public TreeNode deserialize(String data) {
+        
+        if ((data == null) || (data.length() < 1)) {
+            return null;
+        }
+        
+        return deserialize(data, new int[]{0});
+    }    
+    
+    // -- BFS -- 
+    
     private final TreeNode Null          = new TreeNode(-1);
     private final int Bump               = 1000; // A number we bump up every node value by to escape negative values 
     private final int NullNodeNumber     = 1010; // Max node value (that we never meet), used as a Null character 
