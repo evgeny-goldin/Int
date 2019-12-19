@@ -2,6 +2,35 @@ class Solution {
     
     // 23. Merge k Sorted Lists - https://leetcode.com/problems/merge-k-sorted-lists/
     
+    public ListNode mergeKLists2(ListNode[] lists) { 
+        if ((lists == null) || (lists.length < 1)) {
+            return null;
+        }
+        
+        Queue<ListNode> q = new PriorityQueue<ListNode>((l1, l2) -> (l1.val  < l2.val) ? -1 : 
+                                                                    (l1.val == l2.val) ?  0 : 
+                                                                                          1);
+        
+        for(ListNode node : lists){
+            if (node != null) {
+                q.add(node);            
+            }
+        }
+        
+        ListNode head = new ListNode(0);
+        
+        for (ListNode p = head; ! q.isEmpty(); ) {
+            p.next = q.remove();
+            p      = p.next; 
+            
+            if(p.next != null){
+                q.add(p.next);
+            }            
+        }
+        
+        return head.next;
+    }
+    
     public ListNode merge(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
@@ -20,7 +49,7 @@ class Solution {
         }
     }
         
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists1(ListNode[] lists) {
         if ((lists == null) || (lists.length < 1)) {
             return null;
         }
