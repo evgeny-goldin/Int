@@ -11,12 +11,11 @@ class Solution {
     private void serialize(TreeNode node, StringBuilder b) {
         if (node == null) {
             b.append(NullNodeChar);
-            return;
+        } else {
+            b.append(Character.toChars(node.val + Bump)[0]);
+            serialize(node.left,  b);
+            serialize(node.right, b);            
         }        
-        
-        b.append(Character.toChars(node.val + Bump)[0]);
-        serialize(node.left,  b);
-        serialize(node.right, b);
     }
     
     // Encodes a tree to a single String by encoding each node's value to it's Unicode Character as if it was a codepoint. 
