@@ -1,6 +1,103 @@
 class Solution {
     
+    // 65. Valid Number - https://leetcode.com/problems/valid-number/
+    
+    private boolean isNumber(char ch) {
+        int n = (ch - '0');
+        return ((n >= 0) && (n <= 9));
+    }
+    
+    public boolean isNumber(String s) {
+        if ((s == null) || (s.length() < 1)) {
+            return false;
+        }
+        
+        int start = 0;
+        int end   = s.length() - 1;
+        
+        while ((start <= end) && (s.charAt(start) == ' ')) { start++; }
+        
+        if (start > end) {
+            // "", "  "
+            return false;
+        }
+        
+        while (s.charAt(end) == ' ') { end--; }
+        
+        boolean onlyNumbers = false;
+        boolean dotAllowed  = true;
+        
+        for (int j = start; j <= end; j++) {
+            char ch = s.charAt(j);
+            
+            if (isNumber(ch)) {
+                continue;
+            }
+            
+            // Post-e check: "1ee", "1ea", "1e-3."
+            if (onlyNumbers) { return false; }
+            
+            if (ch == 'e') {
+                // "e", "e-", "3e"
+                if ((j == start) || (j == end)) {
+                    return false;
+                }
+                
+                char prev = s.charAt(j-1);
+                char next = s.charAt(j+1);
+                
+                // "-e2", "+e2"
+                if ((prev == '-') || (prev == '+')) {
+                    return false;
+                }
+                
+                if (isNumber(next) || (((next == '-') || (next == '+')) && (j < (end - 1)))) {
+                    onlyNumbers = true;
+                    j++;
+                    continue;  
+                }
+
+                // "1ea", "1e-", "1e+"
+                return false;
+            }
+
+            if ((ch == '-') || (ch == '+')) {
+                if (j == start) { continue; }
+                // "--", "+3-"
+                return false;
+            }
+                
+            if (ch == '.') {
+                
+                if (! dotAllowed) {
+                    // "..", "3.4."
+                    return false;
+                }
+                
+                if (j == start) {
+                    // ".", ".e"
+                    if ((start == end) || (s.charAt(j+1) == 'e')) { return false; }
+                } else {
+                    if ((s.charAt(j-1) == '-') || (s.charAt(j-1) == '+')){
+                        // "-.", "+.", "-.e", "+.e"    
+                        if ((j == end) || (s.charAt(j+1) == 'e')) { return false; }
+                    } 
+                }
+
+                // Only one dot is allowed
+                dotAllowed = false;
+                continue;
+            }    
+            
+            return false; 
+        }
+        
+        return true;
+    }
+    
     // 23. Merge k Sorted Lists - https://leetcode.com/problems/merge-k-sorted-lists/
+    
+    // -- Priority Queue --
     
     public ListNode mergeKLists2(ListNode[] lists) { 
         if ((lists == null) || (lists.length < 1)) {
@@ -30,6 +127,8 @@ class Solution {
         
         return head.next;
     }
+    
+    // -- Divide and Conquer --
     
     public ListNode merge(ListNode l1, ListNode l2) {
         if (l1 == null) {
