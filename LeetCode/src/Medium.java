@@ -1,5 +1,36 @@
 class Solution {
     
+    // 173. Binary Search Tree Iterator - https://leetcode.com/problems/binary-search-tree-iterator/
+    
+    private List<Integer> values = new ArrayList<>();
+    private int next = 0;
+
+    private void dfs(TreeNode node) {
+        if (node == null) {
+            return;
+        }       
+        dfs(node.left);
+        values.add(node.val);
+        dfs(node.right);
+    }
+    
+    public BSTIterator(TreeNode root) {
+        dfs(root);        
+    }
+    
+    /** @return the next smallest number */
+    public int next() {
+        if (! hasNext()) {
+            throw new IllegalStateException("Iterator is empty");
+        }
+        return values.get(next++);
+    }
+    
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return (next < values.size());
+    }
+    
     // 71. Simplify Path - https://leetcode.com/problems/simplify-path/
 
     private void updateStack(String path, int start, int end, Deque<String> stack) {
