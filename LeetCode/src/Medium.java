@@ -1,5 +1,71 @@
 class Solution {
     
+    // 215. Kth Largest Element in an Array - https://leetcode.com/problems/kth-largest-element-in-an-array/
+    
+    public int findKthLargest(int[] nums, int k) {
+        if ((nums == null) || (nums.length < k)) {
+            return -1;
+        }       
+        
+        // Max heap
+        Queue<Integer> q = new PriorityQueue<>((x, y) -> ((x  > y) ? -1 : 
+                                                          (x == y) ? 0 : 
+                                                                     1));
+        for (int j : nums) {
+            q.add(j);
+        }
+        
+        int result = 0;
+        for (int j = 0; j < k; j++) {
+            result = q.remove();
+        }
+        return result;
+    }    
+    
+    private void swap(int[] nums, int x, int y) {
+        int temp = nums[x];
+        nums[x]  = nums[y];
+        nums[y]  = temp;
+    }
+    
+    // Partitions array around pivot (nums[end]) and returns pivot's location
+    private int partition(int[] nums, int start, int end) {
+        if (start == end) {
+            return start;
+        }
+        
+        int pivot = nums[end];
+        int left = start;
+        
+        for (int j = start; j < end; j++) {
+            if (nums[j] <= pivot) {
+                swap(nums, left++, j);
+            }
+        }
+        
+        swap(nums, left, end);
+        return left;
+    }
+    
+    private int findKthLargest1(int[] nums, int k, int start, int end) {
+        int pivot = partition(nums, start, end);
+        if (pivot == (nums.length - k)) {
+            return nums[pivot];
+        } else if (pivot < (nums.length - k)) {
+            return findKthLargest1(nums, k, pivot + 1, end);
+        } else {
+            return findKthLargest1(nums, k, start, pivot - 1);
+        }
+    }
+    
+    public int findKthLargest1(int[] nums, int k) {
+        if ((nums == null) || (nums.length < k)) {
+            return -1;
+        }       
+        
+        return findKthLargest(nums, k, 0, nums.length - 1);
+    }
+    
     // 173. Binary Search Tree Iterator - https://leetcode.com/problems/binary-search-tree-iterator/
     
     private List<Integer> values = new ArrayList<>();
