@@ -26,23 +26,23 @@ class Solution {
     // -- Max heap --
     
     public int findKthLargest2(int[] nums, int k) {
-        if ((nums == null) || (nums.length < k)) {
-            return -1;
-        }       
+        if ((nums == null) || (nums.length < k)) { 
+            return -1; 
+        }        
+         
+        // Max heap 
+        Queue<Integer> q = new PriorityQueue<>((x, y) -> ((x  > y) ? -1 :  
+                                                          (x == y) ? 0 :  
+                                                                     1)); 
+        for (int j : nums) { 
+            q.add(j); 
+        } 
+         
+        for (int j = 0; j < (k - 1); j++) { 
+            q.remove(); 
+        } 
         
-        // Max heap
-        Queue<Integer> q = new PriorityQueue<>((x, y) -> ((x  > y) ? -1 : 
-                                                          (x == y) ? 0 : 
-                                                                     1));
-        for (int j : nums) {
-            q.add(j);
-        }
-        
-        int result = 0;
-        for (int j = 0; j < k; j++) {
-            result = q.remove();
-        }
-        return result;
+        return q.remove(); 
     }    
     
     // -- Quicksort partitioning -- 
