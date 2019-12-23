@@ -47,6 +47,8 @@ class Solution {
     
     // -- Quicksort partitioning -- 
     
+    private Random R = new Random();
+    
     private void swap(int[] nums, int x, int y) {
         int temp = nums[x];
         nums[x]  = nums[y];
@@ -59,7 +61,10 @@ class Solution {
             return start;
         }
         
-        int pivot = nums[end];
+        int pivotIndex = start + R.nextInt(end - start + 1);
+        int pivot      = nums[pivotIndex];
+        swap(nums, pivotIndex, end);
+        
         int left = start;
         
         for (int j = start; j < end; j++) {
@@ -72,18 +77,18 @@ class Solution {
         return left;
     }
     
-    private int findKthLargest1(int[] nums, int k, int start, int end) {
+    private int findKthLargest(int[] nums, int k, int start, int end) {
         int pivot = partition(nums, start, end);
         if (pivot == (nums.length - k)) {
             return nums[pivot];
         } else if (pivot < (nums.length - k)) {
-            return findKthLargest1(nums, k, pivot + 1, end);
+            return findKthLargest(nums, k, pivot + 1, end);
         } else {
-            return findKthLargest1(nums, k, start, pivot - 1);
+            return findKthLargest(nums, k, start, pivot - 1);
         }
     }
     
-    public int findKthLargest1(int[] nums, int k) {
+    public int findKthLargest(int[] nums, int k) {
         if ((nums == null) || (nums.length < k)) {
             return -1;
         }       
