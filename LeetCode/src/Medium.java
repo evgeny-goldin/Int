@@ -2,7 +2,30 @@ class Solution {
     
     // 215. Kth Largest Element in an Array - https://leetcode.com/problems/kth-largest-element-in-an-array/
     
-    public int findKthLargest(int[] nums, int k) {
+    // -- Min heap of size k --
+    
+    public int findKthLargest3(int[] nums, int k) {
+        if ((nums == null) || (nums.length < k)) {
+            return -1;
+        }       
+        
+        Queue<Integer> q = new PriorityQueue<>();
+
+        for (int j : nums) {
+            if (q.size() < k) {
+                q.add(j);                
+            } else if (j > q.peek()) {
+                q.remove();
+                q.add(j);
+            }
+        }
+        
+        return q.remove();
+    }
+    
+    // -- Max heap --
+    
+    public int findKthLargest2(int[] nums, int k) {
         if ((nums == null) || (nums.length < k)) {
             return -1;
         }       
@@ -21,6 +44,8 @@ class Solution {
         }
         return result;
     }    
+    
+    // -- Quicksort partitioning -- 
     
     private void swap(int[] nums, int x, int y) {
         int temp = nums[x];
