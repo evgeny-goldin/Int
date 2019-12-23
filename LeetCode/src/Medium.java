@@ -1,4 +1,49 @@
 class Solution {
+    
+    // 71. Simplify Path - https://leetcode.com/problems/simplify-path/
+
+    private void updateStack(String path, int start, int end, Deque<String> stack) {
+        if ((start >= end) || ((start == (end - 1)) && (path.charAt(start) == '.'))) {
+            // "/." - do nothing
+            return;
+        } 
+        
+        if ((start == (end - 2)) && (path.charAt(start) == '.') && (path.charAt(start + 1) == '.')) {
+            // "/.."
+            stack.pollLast();                    
+        } else {
+            stack.add(path.substring(start, end));                                
+        }                        
+    }
+    
+    public String simplifyPath(String path) {
+        if ((path == null) || (path.length() < 1)) {
+            return path;
+        }    
+        
+        Deque<String> stack = new ArrayDeque<>();
+        int start = 0;
+        
+        for (int j = 0; j < path.length(); j++) {
+            char ch = path.charAt(j);
+            if (ch == '/') {
+                updateStack(path, start, j, stack);
+                start = j + 1;
+            }    
+        }
+
+        updateStack(path, start, path.length(), stack);
+                        
+        if (stack.isEmpty()) {
+            return "/";
+        }
+        
+        StringBuilder b = new StringBuilder();
+        while (! stack.isEmpty()) {
+            b.append('/').append(stack.remove());
+        }
+        return b.toString();
+    }
 
     // 652. Find Duplicate Subtrees - https://leetcode.com/problems/find-duplicate-subtrees/
 
